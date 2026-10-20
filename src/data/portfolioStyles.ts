@@ -1,0 +1,98 @@
+import { PortfolioStyleInfo, ColorPreset } from '../types';
+
+export const PORTFOLIO_STYLES: PortfolioStyleInfo[] = [
+  {
+    id: 'developer',
+    title: 'The Terminal & Slate Theme',
+    subtitle: 'Developer Focus',
+    styleLabel: 'Developer · Dark & Modern',
+    description: 'A modern dark portfolio with navy backgrounds, blue/violet accents, clean typography, project cards, technical skills, and a professional developer introduction.',
+    badge: 'Best for Engineers & Techies',
+    targetAudience: 'Software engineers, frontend/backend devs, DevOps, and technical leads',
+    accentHex: '#6366f1',
+    bgHex: '#0b0f19',
+    highlights: [
+      'Navy & obsidian dark canvas with syntax-inspired accents',
+      'Technical skills stack matrix with categorised tags',
+      'Interactive project cards with GitHub and live demo links',
+      'Experience timeline and terminal-style introductory bio',
+    ],
+  },
+  {
+    id: 'creative',
+    title: 'The Atelier & Canvas Theme',
+    subtitle: 'Creative & Visual Focus',
+    styleLabel: 'Creative · Warm Editorial',
+    description: 'A warm, editorial portfolio with cream backgrounds, expressive typography, tasteful colors, and a visually rich project gallery for designers and creatives.',
+    badge: 'Best for Designers & Creatives',
+    targetAudience: 'UI/UX designers, visual creators, art directors, copywriters, and architects',
+    accentHex: '#b45309',
+    bgHex: '#faf7f2',
+    highlights: [
+      'Warm sand/cream paper texture with bespoke editorial serif headings',
+      'Visual hero statement with high-impact project showcase',
+      'Case study highlight blocks with client challenge & design outcomes',
+      'Artistic layout with generous breathing room and media focus',
+    ],
+  },
+  {
+    id: 'professional',
+    title: 'The Executive & Clarity Theme',
+    subtitle: 'Business & Career Focus',
+    styleLabel: 'Professional · Bright & Minimal',
+    description: 'A minimal, bright portfolio with white and warm neutral backgrounds, refined typography, subtle green accents, and a focus on case studies, achievements, and experience.',
+    badge: 'Best for PMs & Business Leaders',
+    targetAudience: 'Product managers, analysts, project leads, marketers, and consultants',
+    accentHex: '#059669',
+    bgHex: '#ffffff',
+    highlights: [
+      'Crisp bright canvas with warm slate borders and emerald metrics',
+      'Quantified achievement blocks (impact, revenue, team growth)',
+      'Structured career milestones and case study write-ups',
+      'Clean recommendation quotes and executive contact card',
+    ],
+  },
+];
+
+export const COLOR_PRESETS: ColorPreset[] = [
+  {
+    id: 'indigo-violet',
+    name: 'Electric Indigo & Slate',
+    primary: '#4f46e5',
+    accent: '#818cf8',
+    background: '#0f172a',
+    label: 'Modern Tech (Recommended for Developer)',
+  },
+  {
+    id: 'cobalt-sky',
+    name: 'Vibrant Cobalt & Sky',
+    primary: '#2563eb',
+    accent: '#38bdf8',
+    background: '#0369a1',
+    label: 'Clean High-Contrast',
+  },
+  {
+    id: 'warm-terracotta',
+    name: 'Warm Sand & Terracotta',
+    primary: '#9a3412',
+    accent: '#d97706',
+    background: '#faf7f2',
+    label: 'Editorial & Warm (Recommended for Creative)',
+  },
+  {
+    id: 'emerald-slate',
+    name: 'Crisp Emerald & Charcoal',
+    primary: '#059669',
+    accent: '#10b981',
+    background: '#ffffff',
+    label: 'Corporate & Minimal (Recommended for Professional)',
+  },
+  {
+    id: 'monochrome',
+    name: 'Monochrome Minimalist',
+    primary: '#171717',
+    accent: '#525252',
+    background: '#fafafa',
+    label: 'Timeless Black & White',
+  },
+];
