@@ -1,28 +1,19 @@
-import React, { useState } from 'react';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import React from "react";
+import { ArrowUpRight } from "lucide-react";
 
 interface NavbarProps {
   onGetStartedClick: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onGetStartedClick }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const navLinks = [
-  //   { label: 'Portfolio Examples', href: '#examples' },
-  //   { label: 'How It Works', href: '#how-it-works' },
-  //   { label: "What's Included", href: '#whats-included' },
-  //   { label: 'CV Builder Waitlist', href: '#cv-builder' },
-  //   { label: 'FAQ', href: '#faq' },
-  //
-   ];
-
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
     e.preventDefault();
-    setMobileMenuOpen(false);
     const target = document.querySelector(href);
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+      target.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -38,25 +29,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onGetStartedClick }) => {
         </a>
 
         {/* Zone 2: Clean single-line text navigation links */}
-        <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-neutral-600">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={(e) => handleLinkClick(e, link.href)}
-              className="hover:text-neutral-900 transition-colors whitespace-nowrap shrink-0"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
 
         {/* Zone 3: 1 primary action */}
         <div className="hidden sm:flex items-center gap-3 shrink-0">
           <button
             type="button"
             onClick={onGetStartedClick}
-            className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-neutral-900 px-4 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-neutral-800 active:scale-[0.98] transition-all whitespace-nowrap shrink-0"
+            className="inline-flex items-center justify-center gap-1.5 rounded-full border border-indigo-500/45 bg-gradient-to-br from-indigo-300/80 via-indigo-100/95 to-indigo-200/85 px-5 py-2.5 text-sm font-extrabold text-indigo-950 shadow-[0_7px_18px_rgba(17,24,39,0.32),0_2px_5px_rgba(79,70,229,0.2),inset_0_1px_1px_rgba(255,255,255,0.95),inset_0_-1px_2px_rgba(79,70,229,0.2)] backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:from-indigo-300 hover:to-indigo-200 hover:shadow-[0_10px_24px_rgba(17,24,39,0.38),0_3px_8px_rgba(79,70,229,0.24),inset_0_1px_1px_rgba(255,255,255,1)] active:translate-y-0 active:scale-[0.98] whitespace-nowrap shrink-0"
           >
             <span>Get My Portfolio — ₦1,000</span>
             <ArrowUpRight className="h-3.5 w-3.5" />
@@ -68,52 +47,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onGetStartedClick }) => {
           <button
             type="button"
             onClick={onGetStartedClick}
-            className="rounded-md bg-neutral-900 px-3 py-1.5 text-xs font-semibold text-white whitespace-nowrap shrink-0"
+            className="rounded-full border border-indigo-500/45 bg-gradient-to-br from-indigo-300/80 via-indigo-100/95 to-indigo-200/85 px-3.5 py-1.5 text-sm font-extrabold text-indigo-950 shadow-[0_7px_18px_rgba(17,24,39,0.32),0_2px_5px_rgba(79,70,229,0.2),inset_0_1px_1px_rgba(255,255,255,0.95),inset_0_-1px_2px_rgba(79,70,229,0.2)] backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:from-indigo-300 hover:to-indigo-200 hover:shadow-[0_10px_24px_rgba(17,24,39,0.38),0_3px_8px_rgba(79,70,229,0.24),inset_0_1px_1px_rgba(255,255,255,1)] active:translate-y-0 active:scale-[0.98] whitespace-nowrap shrink-0"
           >
             ₦1,000
           </button>
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="inline-flex items-center justify-center rounded-md p-2 text-neutral-700 hover:bg-neutral-100 focus:outline-none"
-            aria-label="Toggle navigation menu"
-            aria-expanded={mobileMenuOpen}
-          >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
         </div>
       </div>
-
-      {/* Mobile menu dropdown */}
-      {mobileMenuOpen && (
-        <div className="border-b border-neutral-200 bg-white px-4 pt-2 pb-6 sm:hidden">
-          <nav className="flex flex-col space-y-3">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={(e) => handleLinkClick(e, link.href)}
-                className="rounded-md px-3 py-2 text-base font-medium text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900"
-              >
-                {link.label}
-              </a>
-            ))}
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onGetStartedClick();
-                }}
-                className="w-full flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow hover:bg-indigo-500"
-              >
-                <span>Get My Portfolio — ₦1,000</span>
-                <ArrowUpRight className="h-4 w-4" />
-              </button>
-            </div>
-          </nav>
-        </div>
-      )}
     </header>
   );
 };
