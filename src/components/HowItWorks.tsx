@@ -1,5 +1,7 @@
 import React from 'react';
-import { Palette, FileText, Globe2, ArrowRight } from 'lucide-react';
+import { Palette, FileText, Globe2 } from 'lucide-react';
+import { BrandButton } from './BrandButton';
+import { SectionDecorations } from './SectionDecorations';
 
 interface HowItWorksProps {
   onStartClick: () => void;
@@ -31,7 +33,8 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStartClick }) => {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 bg-neutral-50/70 border-b border-neutral-200/80">
+    <section id="how-it-works" className="relative isolate overflow-hidden py-20 bg-neutral-50/70 border-b border-neutral-200/80">
+      <SectionDecorations className="-z-10" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
@@ -87,14 +90,13 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStartClick }) => {
 
         {/* CTA below steps */}
         <div className="mt-12 text-center">
-          <button
+          <BrandButton
             type="button"
             onClick={onStartClick}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 px-6 py-3.5 text-sm font-semibold text-white shadow hover:bg-neutral-800 active:scale-[0.99] transition-all"
+            className="px-8"
           >
-            <span>Start My Portfolio</span>
-            <ArrowRight className="h-4 w-4" />
-          </button>
+            Start My Portfolio
+          </BrandButton>
         </div>
 
       </div>

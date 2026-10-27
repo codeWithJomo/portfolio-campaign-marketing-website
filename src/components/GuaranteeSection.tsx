@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { ShieldCheck, ChevronDown, ChevronUp, FileText } from 'lucide-react';
+import { BrandButton } from './BrandButton';
+import { SectionDecorations } from './SectionDecorations';
 
 export const GuaranteeSection: React.FC = () => {
   const [showFullTerms, setShowFullTerms] = useState(false);
 
   return (
-    <section className="py-16 bg-neutral-50/60 border-b border-neutral-200/80">
+    <section className="relative isolate overflow-hidden py-16 bg-neutral-50/60 border-b border-neutral-200/80">
+      <SectionDecorations className="-z-10" />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         
         <div className="rounded-3xl border border-neutral-200 bg-white p-8 sm:p-10 shadow-xs space-y-6">
@@ -33,14 +36,15 @@ export const GuaranteeSection: React.FC = () => {
               No hidden loopholes or fine print tricks. You only pay for a site that matches your brief.
             </p>
 
-            <button
+            <BrandButton
               type="button"
               onClick={() => setShowFullTerms(!showFullTerms)}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-neutral-700 hover:text-neutral-900 transition-colors shrink-0"
+              variant="outline"
+              className="min-h-10 px-4 text-xs shrink-0"
             >
               <span>{showFullTerms ? 'Hide Guarantee Terms' : 'View Full Guarantee Terms'}</span>
               {showFullTerms ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
+            </BrandButton>
           </div>
 
           {/* Collapsible Guarantee Terms Drawer */}

@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  ArrowRight,
-  Cloud,
-  Eye,
-  ExternalLink,
-  RefreshCw,
-  Shield,
-  Smartphone,
-} from "lucide-react";
+import { Cloud, Eye, RefreshCw, Shield, Smartphone } from "lucide-react";
 import { PortfolioStyle } from "../types";
+import { BrandButton } from "./BrandButton";
+import { SectionDecorations } from "./SectionDecorations";
 import fallbackImage from "../public/images/hompage-animation-1-fallback.png";
 
 interface HeroProps {
@@ -22,18 +16,7 @@ export const Hero: React.FC<HeroProps> = ({
   onExploreClick,
 }) => (
   <section className="relative isolate min-h-[calc(100vh-64px)] overflow-hidden bg-[radial-gradient(ellipse_at_50%_45%,#ffffff_20%,#f5faff_72%,#eaf5ff_100%)] px-4 pb-12 pt-10 sm:px-6 lg:px-8 lg:pt-14">
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute -left-16 bottom-[-100px] h-72 w-72 rounded-[42%] bg-blue-600 after:absolute after:-right-14 after:bottom-[-10px] after:h-40 after:w-40 after:rounded-full after:bg-yellow-300"
-    />
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute -right-14 bottom-[-100px] h-52 w-52 rounded-full bg-yellow-300"
-    />
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute -right-8 top-16 h-12 w-24 rotate-[-20deg] rounded-full bg-yellow-300"
-    />
+    <SectionDecorations variant="hero" className="-z-10" />
 
     <div className="relative mx-auto max-w-[1460px]">
       <div className="grid items-center gap-8 lg:grid-cols-[1.06fr_0.94fr] lg:gap-2">
@@ -46,7 +29,6 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
           <h1 className="relative w-fit text-balance text-xl md:text-5xl font-extrabold leading-[1.03] tracking-[-0.045em] text-[#07142f] ">
             It’s Almost Free
-           
             <span
               aria-hidden="true"
               className="absolute -bottom-3 left-[65%] h-2.5 w-36 -rotate-2 rounded-full bg-yellow-400 sm:w-52"
@@ -69,23 +51,25 @@ export const Hero: React.FC<HeroProps> = ({
               <i className="absolute right-1 top-1/2 h-1 w-6 rounded-full bg-yellow-400" />
               <i className="absolute right-0 bottom-1 h-1 w-6 -rotate-[32deg] rounded-full bg-yellow-400" />
             </span>
-            <button
+            <BrandButton
               type="button"
               onClick={onGetStartedClick}
-              className="inline-flex min-h-[72px] items-center justify-center gap-3 rounded-full bg-blue-600 px-10 text-lg font-bold text-white shadow-[0_15px_28px_rgba(37,99,235,0.27)] transition hover:bg-blue-700 active:scale-[.99]"
+              showPortfolioIcon
+              className="min-h-[72px] px-10 text-lg"
             >
-              <ExternalLink className="h-6 w-6" />
-              <span>Get My Portfolio</span>
-              <ArrowRight className="h-5 w-5" />
-            </button>
-            <button
+              Get My Portfolio
+            </BrandButton>
+            <BrandButton
               type="button"
               onClick={onExploreClick}
-              className="inline-flex min-h-[64px] items-center justify-center gap-3 rounded-full border border-blue-500 bg-white/80 px-9 text-lg font-bold text-blue-700 transition hover:bg-blue-50"
+              variant="outline"
+              className="min-h-[64px] px-8 text-lg text-nowrap"
             >
-              <span>Explore Examples</span>
-              <Eye className="h-5 w-5" />
-            </button>
+              <div className="flex flex-row gap-2">
+                <Eye className="h-5 w-5" />
+                Explore Examples
+              </div>
+            </BrandButton>
           </div>
         </div>
 

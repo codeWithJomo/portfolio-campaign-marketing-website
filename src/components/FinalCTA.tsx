@@ -1,5 +1,7 @@
 import React from 'react';
-import { ArrowUpRight, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import { BrandButton } from './BrandButton';
+import { SectionDecorations } from './SectionDecorations';
 
 interface FinalCTAProps {
   onGetStartedClick: () => void;
@@ -7,7 +9,8 @@ interface FinalCTAProps {
 
 export const FinalCTA: React.FC<FinalCTAProps> = ({ onGetStartedClick }) => {
   return (
-    <section className="py-20 bg-neutral-900 text-white relative overflow-hidden">
+    <section className="py-20 bg-neutral-900 text-white relative isolate overflow-hidden">
+      <SectionDecorations className="-z-0 opacity-40" />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
         
         <div className="inline-flex items-center gap-2 text-xs font-semibold text-indigo-300 bg-neutral-800 border border-neutral-700 px-3 py-1 rounded-full">
@@ -24,14 +27,14 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onGetStartedClick }) => {
         </p>
 
         <div className="pt-2">
-          <button
+          <BrandButton
             type="button"
             onClick={onGetStartedClick}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-white text-neutral-950 px-8 py-4 text-sm font-bold shadow-lg hover:bg-neutral-100 active:scale-[0.99] transition-all"
+            showPortfolioIcon
+            className="px-8 py-2"
           >
-            <span>Get My Portfolio — ₦1,000</span>
-            <ArrowUpRight className="h-4 w-4" />
-          </button>
+            Get My Portfolio — ₦1,000
+          </BrandButton>
         </div>
 
         <p className="text-xs text-neutral-400 pt-2">

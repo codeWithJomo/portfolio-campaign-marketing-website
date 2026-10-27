@@ -1,5 +1,7 @@
 import React from 'react';
-import { Check, X, ShieldCheck, ArrowRight, Zap } from 'lucide-react';
+import { Check, X, ShieldCheck, Zap } from 'lucide-react';
+import { BrandButton } from './BrandButton';
+import { SectionDecorations } from './SectionDecorations';
 
 interface WhatsIncludedProps {
   onGetStartedClick: () => void;
@@ -25,7 +27,8 @@ export const WhatsIncluded: React.FC<WhatsIncludedProps> = ({ onGetStartedClick 
   ];
 
   return (
-    <section id="whats-included" className="py-20 bg-white border-b border-neutral-200/80">
+    <section id="whats-included" className="relative isolate overflow-hidden py-20 bg-white border-b border-neutral-200/80">
+      <SectionDecorations className="-z-10" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -74,14 +77,14 @@ export const WhatsIncluded: React.FC<WhatsIncludedProps> = ({ onGetStartedClick 
                 </p>
               </div>
 
-              <button
+              <BrandButton
                 type="button"
                 onClick={onGetStartedClick}
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3.5 text-sm font-semibold text-white shadow hover:bg-indigo-500 active:scale-[0.99] transition-all"
+                showPortfolioIcon
+                className="w-full"
               >
-                <span>Get My Portfolio — ₦1,000</span>
-                <ArrowRight className="h-4 w-4" />
-              </button>
+                Get My Portfolio — ₦1,000
+              </BrandButton>
             </div>
 
             {/* Right: Included & Excluded Checklist */}

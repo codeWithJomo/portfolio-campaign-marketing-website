@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { joinCVWaitlist } from '../services/submissionService';
 import { Sparkles, Check, Send, Loader2, AlertCircle } from 'lucide-react';
+import { BrandButton } from './BrandButton';
+import { SectionDecorations } from './SectionDecorations';
 
 export const CVBuilderWaitlist: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -30,7 +32,8 @@ export const CVBuilderWaitlist: React.FC = () => {
   };
 
   return (
-    <section id="cv-builder" className="py-16 bg-neutral-100/50 border-b border-neutral-200/80">
+    <section id="cv-builder" className="relative isolate overflow-hidden py-16 bg-neutral-100/50 border-b border-neutral-200/80">
+      <SectionDecorations className="-z-10" />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         
         <div className="rounded-2xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs">
@@ -73,10 +76,10 @@ export const CVBuilderWaitlist: React.FC = () => {
                       required
                       className="rounded-xl border border-neutral-300 bg-white px-3.5 py-2.5 text-xs text-neutral-900 placeholder:text-neutral-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600 flex-1"
                     />
-                    <button
+                    <BrandButton
                       type="submit"
                       disabled={isSubmitting}
-                      className="rounded-xl bg-neutral-900 px-4 py-2.5 text-xs font-semibold text-white shadow hover:bg-neutral-800 disabled:opacity-75 transition-all whitespace-nowrap flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="min-h-11 px-4 text-xs whitespace-nowrap"
                     >
                       {isSubmitting ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -86,7 +89,7 @@ export const CVBuilderWaitlist: React.FC = () => {
                           <Send className="w-3 h-3" />
                         </>
                       )}
-                    </button>
+                    </BrandButton>
                   </div>
                   {error && (
                     <div className="text-[11px] text-rose-600 flex items-center gap-1">

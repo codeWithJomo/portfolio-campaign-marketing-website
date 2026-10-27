@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { BrandButton } from './BrandButton';
 
 interface StickyMobileCTAProps {
   onGetStartedClick: () => void;
@@ -41,14 +41,13 @@ export const StickyMobileCTA: React.FC<StickyMobileCTAProps> = ({
         <span className="text-[11px] font-medium text-indigo-600">₦1,000 one-time</span>
       </div>
 
-      <button
+      <BrandButton
         type="button"
         onClick={onGetStartedClick}
-        className="rounded-lg bg-neutral-900 px-3.5 py-2 text-xs font-semibold text-white shadow-sm flex items-center gap-1 active:scale-95 transition-transform"
+        className="min-h-10 px-4 text-xs"
       >
-        <span>Get Started</span>
-        <ArrowUpRight className="w-3.5 h-3.5" />
-      </button>
+        Get Started
+      </BrandButton>
     </div>
   );
 };

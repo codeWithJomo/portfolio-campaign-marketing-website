@@ -3,6 +3,7 @@ import { PortfolioStyle } from '../types';
 import { PORTFOLIO_STYLES } from '../data/portfolioStyles';
 import { PortfolioPreview } from './PortfolioPreviews';
 import { Check, Eye, ArrowRight, Sparkles } from 'lucide-react';
+import { SectionDecorations } from './SectionDecorations';
 
 interface PortfolioExamplesProps {
   selectedStyle: PortfolioStyle;
@@ -16,7 +17,8 @@ export const PortfolioExamples: React.FC<PortfolioExamplesProps> = ({
   onOpenDemo,
 }) => {
   return (
-    <section id="examples" className="py-20 bg-white border-b border-neutral-200/80">
+    <section id="examples" className="relative isolate overflow-hidden py-20 bg-white border-b border-neutral-200/80">
+      <SectionDecorations className="-z-10" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

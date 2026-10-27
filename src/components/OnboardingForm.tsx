@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { PortfolioStyle, OnboardingFormData, SubmissionRecord } from '../types';
 import { COLOR_PRESETS } from '../data/portfolioStyles';
+import { BrandButton } from './BrandButton';
+import { SectionDecorations } from './SectionDecorations';
 import { submitOnboardingDetails } from '../services/submissionService';
 import {
   Check,
@@ -141,8 +143,9 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
     <section
       id="onboarding-form"
       ref={formRef as any}
-      className="py-20 bg-neutral-50/50 border-b border-neutral-200/80 scroll-mt-12"
+      className="relative isolate overflow-hidden py-20 bg-neutral-50/50 border-b border-neutral-200/80 scroll-mt-12"
     >
+      <SectionDecorations className="-z-10" />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -617,10 +620,11 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
 
             {/* Submit Button */}
             <div className="pt-2 space-y-3">
-              <button
+              <BrandButton
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-neutral-900 px-6 py-4 text-sm font-semibold text-white shadow-md hover:bg-neutral-800 active:scale-[0.99] disabled:opacity-75 disabled:pointer-events-none transition-all cursor-pointer"
+                showPortfolioIcon
+                className="w-full min-h-14"
               >
                 {isSubmitting ? (
                   <>
@@ -633,7 +637,7 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                     <Send className="h-4 w-4" />
                   </>
                 )}
-              </button>
+              </BrandButton>
 
               {/* Privacy Reassurance underneath */}
               <p className="text-center text-[11px] text-neutral-500 leading-normal max-w-md mx-auto">

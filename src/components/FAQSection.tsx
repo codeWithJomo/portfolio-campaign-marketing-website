@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FAQS } from '../data/faqs';
 import { Plus, Minus, HelpCircle } from 'lucide-react';
+import { SectionDecorations } from './SectionDecorations';
 
 export const FAQSection: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0); // First item open by default
@@ -10,7 +11,8 @@ export const FAQSection: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-20 bg-white border-b border-neutral-200/80">
+    <section id="faq" className="relative isolate overflow-hidden py-20 bg-white border-b border-neutral-200/80">
+      <SectionDecorations className="-z-10" />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
