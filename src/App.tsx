@@ -67,9 +67,6 @@ export default function App() {
 
         {/* 2. Portfolio Examples Section */}
         <PortfolioExamples
-          selectedStyle={selectedStyle}
-          onSelectStyle={handleSelectStyle}
-          onOpenDemo={handleOpenDemo}
         />
 
         {/* 3. How It Works */}

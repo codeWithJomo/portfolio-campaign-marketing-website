@@ -1,153 +1,55 @@
 import React from 'react';
-import { PortfolioStyle } from '../types';
-import { PORTFOLIO_STYLES } from '../data/portfolioStyles';
-import { PortfolioPreview } from './PortfolioPreviews';
-import { Check, Eye, ArrowRight, Sparkles } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { SectionDecorations } from './SectionDecorations';
 
-interface PortfolioExamplesProps {
-  selectedStyle: PortfolioStyle;
-  onSelectStyle: (style: PortfolioStyle) => void;
-  onOpenDemo: (style: PortfolioStyle) => void;
-}
+const samples = [
+  { name: 'Hair by Remix', url: 'https://hairbyremix.vercel.app/' },
+  { name: 'Jomo Code', url: 'https://jomocode.vercel.app/' },
+  { name: 'Splendid Communications', url: 'https://splendidcomm.vercel.app/' },
+  { name: 'Stanlee', url: 'https://stanlee.vercel.app/' },
+];
 
-export const PortfolioExamples: React.FC<PortfolioExamplesProps> = ({
-  selectedStyle,
-  onSelectStyle,
-  onOpenDemo,
-}) => {
-  return (
-    <section id="examples" className="relative isolate overflow-hidden py-20 bg-white border-b border-neutral-200/80">
-      <SectionDecorations className="-z-10" />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-3 mb-14">
-          <p className="text-xs font-bold uppercase tracking-wider text-indigo-600">
-            Portfolio Demos
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 text-balance">
-            Pick the style that feels like you.
-          </h2>
-          <p className="text-base text-neutral-600 leading-relaxed">
-            Choose a design you like. We'll personalize it with your details, projects, and preferred colors.
-          </p>
-        </div>
-
-        {/* 3 Portfolio Demo Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-          {PORTFOLIO_STYLES.map((item) => {
-            const isSelected = selectedStyle === item.id;
-            return (
-              <div
-                key={item.id}
-                className={`group relative rounded-2xl border transition-all duration-200 flex flex-col bg-white overflow-hidden ${
-                  isSelected
-                    ? 'border-indigo-600 ring-2 ring-indigo-600/20 shadow-xl'
-                    : 'border-neutral-200/90 hover:border-neutral-300 hover:shadow-lg'
-                }`}
-              >
-                {/* Selected Indicator Ribbon */}
-                {isSelected && (
-                  <div className="absolute top-3 right-3 z-20 flex items-center gap-1 bg-indigo-600 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-md">
-                    <Check className="w-3 h-3 stroke-[3]" />
-                    <span>Selected</span>
-                  </div>
-                )}
-
-                {/* Interactive Preview Container */}
-                <div className="relative aspect-[16/11] w-full border-b border-neutral-200/80 overflow-hidden bg-neutral-100">
-                  <PortfolioPreview style={item.id} viewMode="desktop" />
-                  
-                  {/* Hover Overlay with Live Demo Trigger */}
-                  <div className="absolute inset-0 bg-neutral-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
-                    <button
-                      type="button"
-                      onClick={() => onOpenDemo(item.id)}
-                      className="inline-flex items-center gap-2 bg-white text-neutral-900 px-4 py-2 rounded-xl text-xs font-bold shadow-lg hover:bg-neutral-100 active:scale-95 transition-all"
-                    >
-                      <Eye className="w-3.5 h-3.5" />
-                      <span>Open Full Interactive Demo</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Card Content */}
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                  <div className="space-y-2">
-                    {/* Style Label (Unboxed text metadata) */}
-                    <div className="flex items-center justify-between text-xs font-semibold text-neutral-500">
-                      <span className="text-indigo-600 font-mono text-[11px] uppercase tracking-wider">
-                        {item.styleLabel}
-                      </span>
-                      <span className="text-[11px] text-neutral-400">{item.badge}</span>
-                    </div>
-
-                    <h3 className="text-xl font-bold tracking-tight text-neutral-900">
-                      {item.title}
-                    </h3>
-
-                    <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                      {item.description}
-                    </p>
-
-                    {/* Features list */}
-                    <ul className="pt-2 space-y-1.5 text-xs text-neutral-600">
-                      {item.highlights.map((highlight, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <span className="text-emerald-600 font-bold shrink-0">✓</span>
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="pt-4 border-t border-neutral-100 flex flex-col sm:flex-row items-center gap-2.5">
-                    <button
-                      type="button"
-                      onClick={() => onSelectStyle(item.id)}
-                      className={`w-full sm:flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                        isSelected
-                          ? 'bg-indigo-600 text-white shadow-sm'
-                          : 'bg-neutral-900 text-white hover:bg-neutral-800'
-                      }`}
-                    >
-                      {isSelected ? (
-                        <>
-                          <Check className="w-3.5 h-3.5" />
-                          <span>Design Selected</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Choose This Design</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </>
-                      )}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => onOpenDemo(item.id)}
-                      className="w-full sm:w-auto py-2.5 px-3 rounded-xl border border-neutral-200 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 transition-colors flex items-center justify-center gap-1"
-                      title="View live demo preview"
-                    >
-                      <Eye className="w-3.5 h-3.5" />
-                      <span className="hidden sm:inline">Demo</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Help text below cards */}
-        <div className="mt-8 text-center text-xs text-neutral-500">
-          <span>Not sure which one fits? Choose any design now — Jomo can help you tweak the style and colors during your 5 revision rounds.</span>
-        </div>
-
+export const PortfolioExamples: React.FC = () => (
+  <section id="examples" className="relative isolate overflow-hidden border-b border-neutral-200/80 bg-white py-20">
+    <SectionDecorations className="-z-10" />
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto mb-14 max-w-2xl space-y-3 text-center">
+        <h2 className="text-balance text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl">Samples</h2>
+        <p className="text-lg leading-relaxed text-neutral-600">Explore websites we've created. Select a preview to visit the live website.</p>
       </div>
-    </section>
-  );
-};
+
+      <div className="grid grid-cols-1 items-stretch gap-8 sm:grid-cols-2">
+        {samples.map((sample) => (
+          <a
+            key={sample.url}
+            href={sample.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Visit ${sample.name} website (opens in a new tab)`}
+            className="group overflow-hidden rounded-2xl border border-neutral-200/90 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-neutral-300 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
+          >
+            <div className="relative aspect-[16/10] overflow-hidden bg-neutral-100">
+              <iframe
+                src={sample.url}
+                title={`${sample.name} website preview`}
+                loading="lazy"
+                tabIndex={-1}
+                aria-hidden="true"
+                className="pointer-events-none absolute left-0 top-0 h-[200%] w-[200%] origin-top-left scale-50 border-0 bg-white"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-neutral-950/0 transition-colors group-hover:bg-neutral-950/30 group-focus-visible:bg-neutral-950/30">
+                <span className="inline-flex translate-y-2 items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-neutral-900 opacity-0 shadow-lg transition-all group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+                  <ExternalLink className="h-4 w-4" /> Visit website
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center justify-between gap-3 p-5">
+              <h3 className="text-lg font-bold tracking-tight text-neutral-900">{sample.name}</h3>
+              <ExternalLink className="h-4 w-4 shrink-0 text-neutral-400 transition-colors group-hover:text-indigo-600" />
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+);
