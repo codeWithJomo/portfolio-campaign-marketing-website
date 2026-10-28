@@ -36,6 +36,7 @@ export async function submitOnboardingDetails(
     data,
   };
 
+  if (!supabase) throw new Error('Submissions are temporarily unavailable. Please try again later.');
   const { error } = await supabase.from('portfolio_submissions').insert({
     reference_id: record.referenceId,
     submitted_at: record.submittedAt,
@@ -70,6 +71,7 @@ export async function joinCVWaitlist(
   }
 
   const normalizedEmail = email.trim().toLowerCase();
+  if (!supabase) throw new Error('The waitlist is temporarily unavailable. Please try again later.');
   const { error } = await supabase
     .from('cv_builder_waitlist')
     .upsert({ email: normalizedEmail }, { onConflict: 'email', ignoreDuplicates: true });

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { PortfolioStyle } from "../types";
 import { FileText, Shield, X, Mail } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { trackFooterReach } from "../utils/performanceTracking";
 
 interface FooterProps {
   onSelectStyleAndScroll: (style: PortfolioStyle) => void;
@@ -11,9 +13,23 @@ export const Footer: React.FC<FooterProps> = ({
   onSelectStyleAndScroll,
   onOpenDemo,
 }) => {
+  const footerRef = useRef<HTMLElement | null>(null);
   const [legalModal, setLegalModal] = useState<"terms" | "privacy" | null>(
     null,
   );
+
+  useEffect(() => {
+    const footer = footerRef.current;
+    if (!footer) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        trackFooterReach();
+        observer.disconnect();
+      }
+    }, { threshold: 0.1 });
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
 
   const contactHandle =
     (import.meta as any).env?.VITE_CONTACT_HANDLE || "@jomoCode";
@@ -22,7 +38,7 @@ export const Footer: React.FC<FooterProps> = ({
 
   return (
     <>
-      <footer className="bg-white border-t border-neutral-200/90 py-14 text-neutral-600 text-xs">
+      <footer ref={footerRef} className="bg-white border-t border-neutral-200/90 py-14 text-neutral-600 text-xs">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
             {/* Brand & Description */}
@@ -164,6 +180,18 @@ export const Footer: React.FC<FooterProps> = ({
                     Contact Method) is strictly used to evaluate your portfolio
                     requirements and communicate directly with you regarding
                     your setup.
+                  </p>
+                  <p>
+                    <strong>Anonymous usage statistics:</strong> When you visit
+                    this website, we store a random identifier in your browser
+                    and record visit counts, return visits, conversion button
+                    clicks, and when the footer is reached, with timestamps.
+                    These event records do not include your name, email, form
+                    contents, or contact details. The identifier is used only
+                    to distinguish repeat visits on this browser. This
+                    first-party performance data is stored in our Supabase
+                    database and is not shared with third parties. Clearing
+                    browser storage resets the identifier.
                   </p>
                   <p>
                     <strong>No Unsolicited Marketing:</strong> We will never

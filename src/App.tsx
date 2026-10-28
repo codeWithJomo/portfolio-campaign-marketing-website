@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PortfolioStyle } from './types';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -14,6 +14,7 @@ import { Footer } from './components/Footer';
 import { LiveDemoModal } from './components/LiveDemoModal';
 import { StickyMobileCTA } from './components/StickyMobileCTA';
 import { ConsentBanner } from './components/ConsentBanner';
+import { recordPerformanceEvent, trackVisit } from './utils/performanceTracking';
 
 export default function App() {
   const [selectedStyle, setSelectedStyle] = useState<PortfolioStyle>('developer');
@@ -22,7 +23,12 @@ export default function App() {
 
   const formRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    trackVisit();
+  }, []);
+
   const scrollToForm = () => {
+    recordPerformanceEvent('conversion_click', 'get_portfolio');
     if (formRef.current) {
       formRef.current.scrollIntoView({ behavior: 'smooth' });
     } else {
@@ -32,6 +38,7 @@ export default function App() {
   };
 
   const scrollToExamples = () => {
+    recordPerformanceEvent('conversion_click', 'explore_examples');
     const el = document.getElementById('examples');
     el?.scrollIntoView({ behavior: 'smooth' });
   };

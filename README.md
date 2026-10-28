@@ -42,6 +42,8 @@ A landing page for a personalized portfolio website service. Visitors can review
 
 The onboarding form inserts into `portfolio_submissions`; the standalone CV form inserts into `cv_builder_waitlist`.
 
+Performance tracking records production visits, return visits, clicks on the main conversion actions, and footer reach in `performance_events`. The insert-only public policy does not allow visitors to read these records. In the Supabase SQL Editor, query `public.performance_event_counts` for daily totals by event and CTA label. The visitor ID is a random browser-local identifier; clearing local storage makes the browser appear new. Events do not include form or contact information. Tracking is disabled in local/dev builds and does not depend on the optional Google Analytics consent setting.
+
 ## Available scripts
 
 | Command | Description |
