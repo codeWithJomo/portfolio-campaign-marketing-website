@@ -32,9 +32,9 @@ export const PortfolioButton: React.FC<PortfolioButtonProps> = ({
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex min-h-[58px] min-w-[236px] items-center justify-center gap-3 rounded-full border border-blue-400/50 bg-gradient-to-b from-[#1765f5] to-[#0751e8] px-7 text-[16px] font-semibold tracking-[-0.02em] text-white shadow-[0_12px_24px_rgba(22,93,225,0.24),inset_0_1px_1px_rgba(255,255,255,0.32),inset_0_-2px_3px_rgba(0,42,150,0.18)] transition-all hover:-translate-y-0.5 hover:shadow-[0_15px_28px_rgba(22,93,225,0.3),inset_0_1px_1px_rgba(255,255,255,0.38)] active:translate-y-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 whitespace-nowrap"
+      className="inline-flex min-h-[58px] min-w-[236px] items-center justify-center gap-3 rounded-full border border-cyan-300/60 bg-gradient-to-b from-cyan-500 to-cyan-700 px-7 text-[16px] font-semibold tracking-[-0.02em] text-white shadow-[0_12px_24px_rgba(8,145,178,0.24),inset_0_1px_1px_rgba(255,255,255,0.32),inset_0_-2px_3px_rgba(8,80,100,0.18)] transition-all hover:-translate-y-0.5 hover:shadow-[0_15px_28px_rgba(8,145,178,0.3),inset_0_1px_1px_rgba(255,255,255,0.38)] active:translate-y-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 whitespace-nowrap"
     >
-      <BriefcaseBusiness aria-hidden="true" className="h-[19px] w-[19px] fill-white stroke-[#1765f5] stroke-[2.4]" />
+      <BriefcaseBusiness aria-hidden="true" className="h-[19px] w-[19px] fill-white stroke-cyan-600 stroke-[2.4]" />
       <span>{children}</span>
       <ArrowRight aria-hidden="true" className="h-[17px] w-[17px] stroke-[2.4]" />
     </button>
