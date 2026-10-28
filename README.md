@@ -1,20 +1,44 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Portfolio Campaign
 
-# Run and deploy your AI Studio app
+A landing page for a personalized portfolio website service. Visitors can review the offer, submit their portfolio requirements through the onboarding form, or join the CV builder waitlist.
 
-This contains everything you need to run your app locally.
+## Tech stack
 
-View your app in AI Studio: https://ai.studio/apps/791bcbdd-da43-42fc-9b52-007c0e5ef4ed
+- React 19 and TypeScript
+- Vite
+- Tailwind CSS
+- Motion animations and Lucide icons
 
-## Run Locally
+## Run locally
 
-**Prerequisites:**  Node.js
-
+**Prerequisite:** Node.js
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+
+   ```bash
+   npm install
+   ```
+
+2. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+3. Open the local URL printed by Vite (the development server uses port `3000`).
+
+## Available scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite development server on port 3000. |
+| `npm run build` | Build the production app into `dist/`. |
+| `npm run preview` | Preview the production build locally. |
+| `npm run lint` | Check TypeScript types with `tsc --noEmit`. |
+
+## Submission flows
+
+- The onboarding form submits portfolio requirements and contact details.
+- The CV builder form lets visitors join the waitlist.
+
+Submission handling is implemented in `src/services/submissionService.ts`.
