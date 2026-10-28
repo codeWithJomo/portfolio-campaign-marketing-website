@@ -13,6 +13,7 @@ import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
 import { LiveDemoModal } from './components/LiveDemoModal';
 import { StickyMobileCTA } from './components/StickyMobileCTA';
+import { ConsentBanner } from './components/ConsentBanner';
 
 export default function App() {
   const [selectedStyle, setSelectedStyle] = useState<PortfolioStyle>('developer');
@@ -114,6 +115,8 @@ export default function App() {
         onGetStartedClick={scrollToForm}
         formRef={formRef}
       />
+
+      <ConsentBanner />
     </div>
   );
 }
