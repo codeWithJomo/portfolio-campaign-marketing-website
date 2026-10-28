@@ -113,7 +113,7 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
               className="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-sm"
             >
               <Check className="w-3.5 h-3.5" />
-              <span>Choose This Design (₦1,000)</span>
+              <span>Choose This Design (₦5,000)</span>
             </button>
             <button
               type="button"

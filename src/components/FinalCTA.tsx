@@ -29,12 +29,12 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onGetStartedClick }) => {
             showPortfolioIcon
             className="px-8 py-2"
           >
-            Get My Portfolio — ₦1,000
+            Get My Portfolio — ₦5,000
           </BrandButton>
         </div>
 
         <p className="text-xs text-neutral-400 pt-2">
-          ₦1,000 one-time · Free Vercel hosting forever · Money-back guarantee
+          ₦5,000 one-time · Free Vercel hosting forever · Money-back guarantee
         </p>
 
       </div>

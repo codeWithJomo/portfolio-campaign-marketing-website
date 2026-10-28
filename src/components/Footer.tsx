@@ -33,7 +33,7 @@ export const Footer: React.FC<FooterProps> = ({
               <p className="text-neutral-500 leading-relaxed max-w-sm">
                 Personalized, high-converting portfolio websites for job
                 seekers, developers, and creatives. Built with care, hosted free
-                forever on Vercel, for a one-time fee of ₦1,000.
+                forever on Vercel, for a one-time fee of ₦5,000.
               </p>
               <div className="pt-1 text-neutral-500 flex items-center gap-2">
                 <span>Direct contact:</span>
@@ -126,7 +126,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <>
                   <p>
                     <strong>1. Service Deliverables:</strong> For the one-time
-                    payment of ₦1,000, Jomo builds and deploys a single-page
+                    payment of ₦5,000, Jomo builds and deploys a single-page
                     responsive portfolio website on a free Vercel subdomain
                     based on your chosen design and submitted profile content.
                   </p>
@@ -147,13 +147,13 @@ export const Footer: React.FC<FooterProps> = ({
                     website fails to meet the agreed-upon design structure or
                     functional specifications submitted in your form, and Jomo
                     is unable to rectify the issue within the 5 revision rounds,
-                    you can request a 100% refund of the ₦1,000 fee.
+                    you can request a 100% refund of the ₦5,000 fee.
                   </p>
                   <p>
                     <strong>5. Scope Exclusions:</strong> Custom backends,
                     e-commerce integrations, multi-page custom builds, and
                     ongoing monthly content maintenance are not included in the
-                    ₦1,000 package.
+                    ₦5,000 package.
                   </p>
                 </>
               ) : (
@@ -173,7 +173,7 @@ export const Footer: React.FC<FooterProps> = ({
                   <p>
                     <strong>Payment Data:</strong> No credit card or banking
                     details are collected on this landing page. Any future
-                    ₦1,000 payment is coordinated directly via standard bank
+                    ₦5,000 payment is coordinated directly via standard bank
                     transfer or certified payment gateways (e.g., Paystack).
                   </p>
                 </>

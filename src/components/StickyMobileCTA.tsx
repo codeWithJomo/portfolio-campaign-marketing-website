@@ -38,7 +38,7 @@ export const StickyMobileCTA: React.FC<StickyMobileCTAProps> = ({
     <div className="fixed bottom-0 left-0 right-0 z-30 sm:hidden bg-white/95 backdrop-blur-md border-t border-neutral-200 px-4 py-2.5 shadow-lg flex items-center justify-between gap-3 animate-in slide-in-from-bottom-2 duration-200">
       <div className="leading-tight">
         <span className="text-xs font-bold text-neutral-900 block">Personal Portfolio</span>
-        <span className="text-[11px] font-medium text-indigo-600">₦1,000 one-time</span>
+        <span className="text-[11px] font-medium text-indigo-600">₦5,000 one-time</span>
       </div>
 
       <BrandButton

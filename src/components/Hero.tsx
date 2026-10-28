@@ -40,7 +40,7 @@ export const Hero: React.FC<HeroProps> = ({
           </h1>
           <p className="max-w-[760px] text-lg font-medium leading-[1.55] text-[#344668] sm:text-2xl">
             Get your own clean, personalized portfolio website to showcase your
-            skills, projects, and experience — for just ₦1,000.
+            skills, projects, and experience — for just ₦5,000.
           </p>
           <div className="relative flex flex-col items-center gap-4 pt-1 sm:flex-row sm:items-center">
             <span

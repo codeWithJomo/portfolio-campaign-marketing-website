@@ -180,7 +180,7 @@ export const WhatsIncluded: React.FC<WhatsIncludedProps> = ({
               </span>
               <div className="flex items-baseline justify-center gap-2">
                 <span className="text-4xl sm:text-5xl font-extrabold text-black tracking-tight font-mono">
-                  ₦1,000
+                  ₦5,000
                 </span>
                 <span className="text-sm font-bold text-neutral-600">
                   one-time payment
@@ -210,7 +210,7 @@ export const WhatsIncluded: React.FC<WhatsIncludedProps> = ({
             showPortfolioIcon
             className="w-full"
           >
-            Get My Portfolio — ₦1,000
+            Get My Portfolio — ₦5,000
           </BrandButton>
         </div>
       </div>

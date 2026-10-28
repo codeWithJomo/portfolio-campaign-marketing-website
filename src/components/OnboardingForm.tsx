@@ -375,7 +375,7 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                     Direct Contact & Payment
                   </strong>
                   <p className="text-[11px] leading-relaxed">
-                    You receive a message with payment instructions (₦1,000
+                    You receive a message with payment instructions (₦5,000
                     one-time fee).
                   </p>
                 </div>
@@ -848,7 +848,7 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                       <span className="text-rose-500 mr-1">*</span>I confirm
                       that I have reviewed the service scope (1-page portfolio,
                       3 template designs, 5 revision rounds, free Vercel
-                      subdomain) and understand payment (₦1,000) is a separate
+                      subdomain) and understand payment (₦5,000) is a separate
                       step after Jomo reviews my inquiry.
                     </span>
                   </label>

@@ -42,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onGetStartedClick }) => {
             onClick={onGetStartedClick}
             className="rounded-full border border-indigo-500/45 bg-gradient-to-br from-indigo-300/80 via-indigo-100/95 to-indigo-200/85 px-3.5 py-1.5 text-sm font-bold text-indigo-950 shadow-[0_7px_18px_rgba(17,24,39,0.32),0_2px_5px_rgba(79,70,229,0.2),inset_0_1px_1px_rgba(255,255,255,0.95),inset_0_-1px_2px_rgba(79,70,229,0.2)] backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:from-indigo-300 hover:to-indigo-200 hover:shadow-[0_10px_24px_rgba(17,24,39,0.38),0_3px_8px_rgba(79,70,229,0.24),inset_0_1px_1px_rgba(255,255,255,1)] active:translate-y-0 active:scale-[0.98] whitespace-nowrap shrink-0"
           >
-            ₦1,000
+            ₦5,000
           </button>
         </div>
       </div>

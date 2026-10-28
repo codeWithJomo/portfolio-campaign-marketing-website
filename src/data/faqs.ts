@@ -5,7 +5,7 @@ export interface FAQItem {
 
 export const FAQS: FAQItem[] = [
   {
-    question: 'What do I get for ₦1,000?',
+    question: 'What do I get for ₦5,000?',
     answer:
       'You get a fully personalized, single-page responsive portfolio website built with your choice of our 3 core designs (Developer, Creative, or Professional). We customize it with your name, bio, skills, projects, work experience, resume link, contact details, and chosen color palette. We then deploy it on a free, high-speed Vercel subdomain (e.g., yourname.vercel.app) with 5 rounds of revisions included.',
   },
@@ -32,7 +32,7 @@ export const FAQS: FAQItem[] = [
   {
     question: 'How does the money-back guarantee work?',
     answer:
-      'Our guarantee is simple and transparent: If the delivered website does not match the agreed design style and specifications submitted in your onboarding form, I will work with you through your revision rounds to resolve the issue. If we are unable to resolve the mismatch after a reasonable opportunity to do so, you can request and receive a 100% refund of your ₦1,000 payment.',
+      'Our guarantee is simple and transparent: If the delivered website does not match the agreed design style and specifications submitted in your onboarding form, I will work with you through your revision rounds to resolve the issue. If we are unable to resolve the mismatch after a reasonable opportunity to do so, you can request and receive a 100% refund of your ₦5,000 payment.',
   },
   {
     question: 'What happens after I submit the form?',
