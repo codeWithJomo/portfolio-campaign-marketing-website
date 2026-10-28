@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { PortfolioStyle, OnboardingFormData, SubmissionRecord } from '../types';
-import { COLOR_PRESETS } from '../data/portfolioStyles';
-import { BrandButton } from './BrandButton';
-import { SectionDecorations } from './SectionDecorations';
-import { submitOnboardingDetails } from '../services/submissionService';
+import React, { useState, useEffect } from "react";
+import { PortfolioStyle, OnboardingFormData, SubmissionRecord } from "../types";
+import { COLOR_PRESETS } from "../data/portfolioStyles";
+import { BrandButton } from "./BrandButton";
+import { SectionDecorations } from "./SectionDecorations";
+import { submitOnboardingDetails } from "../services/submissionService";
 import {
   Check,
   Send,
@@ -16,7 +16,7 @@ import {
   Clock,
   Sparkles,
   RefreshCw,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface OnboardingFormProps {
   selectedStyle: PortfolioStyle;
@@ -30,22 +30,23 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
   formRef,
 }) => {
   const [formData, setFormData] = useState<OnboardingFormData>({
-    fullName: '',
-    email: '',
-    careerField: '',
+    fullName: "",
+    email: "",
+    careerField: "",
     preferredDesign: selectedStyle,
-    colorOption: 'indigo-violet',
-    customPrimaryColor: '#4f46e5',
-    customAccentColor: '#818cf8',
-    contactMethod: '',
-    projectNotes: '',
+    colorOption: "indigo-violet",
+    customPrimaryColor: "#4f46e5",
+    customAccentColor: "#818cf8",
+    contactMethod: "",
+    projectNotes: "",
     cvBuilderWaitlist: true,
     agreedToTerms: false,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [submissionSuccess, setSubmissionSuccess] = useState<SubmissionRecord | null>(null);
+  const [submissionSuccess, setSubmissionSuccess] =
+    useState<SubmissionRecord | null>(null);
   const [copiedRef, setCopiedRef] = useState(false);
 
   // Sync when prop selectedStyle changes
@@ -57,10 +58,12 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
   }, [selectedStyle]);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value, type } = e.target;
-    if (type === 'checkbox') {
+    if (type === "checkbox") {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData((prev) => ({ ...prev, [name]: checked }));
     } else {
@@ -80,24 +83,28 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
 
     // Validation
     if (!formData.fullName.trim()) {
-      setErrorMessage('Please enter your full name.');
+      setErrorMessage("Please enter your full name.");
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email.trim())) {
-      setErrorMessage('Please enter a valid email address.');
+      setErrorMessage("Please enter a valid email address.");
       return;
     }
     if (!formData.careerField.trim()) {
-      setErrorMessage('Please enter your career field or professional title.');
+      setErrorMessage("Please enter your career field or professional title.");
       return;
     }
     if (!formData.contactMethod.trim()) {
-      setErrorMessage('Please provide a preferred contact method or social profile link.');
+      setErrorMessage(
+        "Please provide a preferred contact method or social profile link.",
+      );
       return;
     }
     if (!formData.agreedToTerms) {
-      setErrorMessage('Please confirm that you have reviewed the service scope and separate payment step.');
+      setErrorMessage(
+        "Please confirm that you have reviewed the service scope and separate payment step.",
+      );
       return;
     }
 
@@ -108,7 +115,10 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
         setSubmissionSuccess(result.record);
       }
     } catch (err: any) {
-      setErrorMessage(err.message || 'An error occurred while submitting your details. Please try again.');
+      setErrorMessage(
+        err.message ||
+          "An error occurred while submitting your details. Please try again.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -125,15 +135,15 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
   const resetForm = () => {
     setSubmissionSuccess(null);
     setFormData({
-      fullName: '',
-      email: '',
-      careerField: '',
+      fullName: "",
+      email: "",
+      careerField: "",
       preferredDesign: selectedStyle,
-      colorOption: 'indigo-violet',
-      customPrimaryColor: '#4f46e5',
-      customAccentColor: '#818cf8',
-      contactMethod: '',
-      projectNotes: '',
+      colorOption: "indigo-violet",
+      customPrimaryColor: "#4f46e5",
+      customAccentColor: "#818cf8",
+      contactMethod: "",
+      projectNotes: "",
       cvBuilderWaitlist: true,
       agreedToTerms: false,
     });
@@ -147,24 +157,20 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
     >
       <SectionDecorations className="-z-10" />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
-          <p className="text-xs font-bold uppercase tracking-wider text-indigo-600">
-            Get Started
-          </p>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 text-balance">
             Let's build your portfolio.
           </h2>
           <p className="text-base text-neutral-600 leading-relaxed">
-            Tell us a little about yourself to get started. It only takes a few minutes.
+            Tell us a little about yourself to get started. It only takes a few
+            minutes.
           </p>
         </div>
 
         {/* Confirmation Screen on Successful Submission */}
         {submissionSuccess ? (
           <div className="rounded-3xl border border-neutral-200 bg-white p-8 sm:p-12 shadow-sm space-y-8 animate-in fade-in duration-300">
-            
             {/* Header / Reference */}
             <div className="text-center space-y-3">
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 mx-auto">
@@ -174,20 +180,30 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                 Details Received!
               </h3>
               <p className="text-sm text-neutral-600 max-w-md mx-auto">
-                Thank you, <strong className="text-neutral-900">{submissionSuccess.data.fullName}</strong>. Your portfolio inquiry has been recorded.
+                Thank you,{" "}
+                <strong className="text-neutral-900">
+                  {submissionSuccess.data.fullName}
+                </strong>
+                . Your portfolio inquiry has been recorded.
               </p>
 
               {/* Reference ID Pill */}
               <div className="inline-flex items-center gap-2 bg-neutral-100 border border-neutral-200 rounded-xl px-4 py-2 text-xs font-mono text-neutral-700 mt-2">
                 <span>Reference:</span>
-                <span className="font-bold text-neutral-900">{submissionSuccess.referenceId}</span>
+                <span className="font-bold text-neutral-900">
+                  {submissionSuccess.referenceId}
+                </span>
                 <button
                   type="button"
                   onClick={copyReferenceId}
                   className="p-1 hover:text-neutral-900 text-neutral-500 transition-colors"
                   title="Copy reference code"
                 >
-                  {copiedRef ? <CheckCheck className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copiedRef ? (
+                    <CheckCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  ) : (
+                    <Copy className="w-3.5 h-3.5" />
+                  )}
                 </button>
               </div>
             </div>
@@ -200,21 +216,33 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <span className="text-neutral-500 block">Career Field:</span>
-                  <span className="font-semibold text-neutral-900">{submissionSuccess.data.careerField}</span>
+                  <span className="font-semibold text-neutral-900">
+                    {submissionSuccess.data.careerField}
+                  </span>
                 </div>
                 <div>
-                  <span className="text-neutral-500 block">Selected Design:</span>
+                  <span className="text-neutral-500 block">
+                    Selected Design:
+                  </span>
                   <span className="font-semibold capitalize text-indigo-600">
                     {submissionSuccess.data.preferredDesign} Style
                   </span>
                 </div>
                 <div>
-                  <span className="text-neutral-500 block">Contact Channel:</span>
-                  <span className="font-semibold text-neutral-900">{submissionSuccess.data.contactMethod}</span>
+                  <span className="text-neutral-500 block">
+                    Contact Channel:
+                  </span>
+                  <span className="font-semibold text-neutral-900">
+                    {submissionSuccess.data.contactMethod}
+                  </span>
                 </div>
                 <div>
-                  <span className="text-neutral-500 block">Notification Email:</span>
-                  <span className="font-semibold text-neutral-900">{submissionSuccess.data.email}</span>
+                  <span className="text-neutral-500 block">
+                    Notification Email:
+                  </span>
+                  <span className="font-semibold text-neutral-900">
+                    {submissionSuccess.data.email}
+                  </span>
                 </div>
               </div>
             </div>
@@ -228,26 +256,42 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-neutral-600">
                 <div className="p-4 rounded-xl border border-neutral-200 bg-white space-y-1.5">
-                  <span className="font-mono text-[10px] font-bold text-indigo-600 block">01 · Review</span>
-                  <strong className="text-neutral-900 block text-xs">Jomo reviews your submission</strong>
+                  <span className="font-mono text-[10px] font-bold text-indigo-600 block">
+                    01 · Review
+                  </span>
+                  <strong className="text-neutral-900 block text-xs">
+                    Jomo reviews your submission
+                  </strong>
                   <p className="text-[11px] leading-relaxed">
-                    Within 24 hours, Jomo inspects your title, links, and selected design to ensure all assets are ready.
+                    Within 24 hours, Jomo inspects your title, links, and
+                    selected design to ensure all assets are ready.
                   </p>
                 </div>
 
                 <div className="p-4 rounded-xl border border-neutral-200 bg-white space-y-1.5">
-                  <span className="font-mono text-[10px] font-bold text-indigo-600 block">02 · Confirmation</span>
-                  <strong className="text-neutral-900 block text-xs">Direct Contact & Payment</strong>
+                  <span className="font-mono text-[10px] font-bold text-indigo-600 block">
+                    02 · Confirmation
+                  </span>
+                  <strong className="text-neutral-900 block text-xs">
+                    Direct Contact & Payment
+                  </strong>
                   <p className="text-[11px] leading-relaxed">
-                    You receive a message via your preferred contact channel with payment instructions (₦1,000 one-time fee via Bank Transfer / Paystack).
+                    You receive a message via your preferred contact channel
+                    with payment instructions (₦1,000 one-time fee via Bank
+                    Transfer / Paystack).
                   </p>
                 </div>
 
                 <div className="p-4 rounded-xl border border-neutral-200 bg-white space-y-1.5">
-                  <span className="font-mono text-[10px] font-bold text-indigo-600 block">03 · Delivery</span>
-                  <strong className="text-neutral-900 block text-xs">Preview & 5 Revisions</strong>
+                  <span className="font-mono text-[10px] font-bold text-indigo-600 block">
+                    03 · Delivery
+                  </span>
+                  <strong className="text-neutral-900 block text-xs">
+                    Preview & 5 Revisions
+                  </strong>
                   <p className="text-[11px] leading-relaxed">
-                    You get a live staging link on Vercel to inspect, with 5 revision rounds included before final handover.
+                    You get a live staging link on Vercel to inspect, with 5
+                    revision rounds included before final handover.
                   </p>
                 </div>
               </div>
@@ -257,7 +301,11 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
             <div className="rounded-xl bg-amber-50 border border-amber-200/80 p-4 text-xs text-amber-900 flex items-start gap-3">
               <Shield className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
               <div>
-                <strong className="font-semibold">Notice:</strong> Your website order is pending confirmation. Submitting this form does not charge your card, and no payment details were collected. Payment is completed only after Jomo connects with you to confirm your requirements.
+                <strong className="font-semibold">Notice:</strong> Your website
+                order is pending confirmation. Submitting this form does not
+                charge your card, and no payment details were collected. Payment
+                is completed only after Jomo connects with you to confirm your
+                requirements.
               </div>
             </div>
 
@@ -280,7 +328,9 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                 {copiedRef ? (
                   <>
                     <CheckCheck className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Copied Reference #{submissionSuccess.referenceId}</span>
+                    <span>
+                      Copied Reference #{submissionSuccess.referenceId}
+                    </span>
                   </>
                 ) : (
                   <>
@@ -290,7 +340,6 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                 )}
               </button>
             </div>
-
           </div>
         ) : (
           /* Actual Interactive Form */
@@ -310,7 +359,10 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
             {/* 1. Basic Info: Name & Email */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="space-y-1.5 text-left">
-                <label htmlFor="fullName" className="block text-xs font-bold text-neutral-800">
+                <label
+                  htmlFor="fullName"
+                  className="block text-xs font-bold text-neutral-800"
+                >
                   Full Name <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -326,7 +378,10 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
               </div>
 
               <div className="space-y-1.5 text-left">
-                <label htmlFor="email" className="block text-xs font-bold text-neutral-800">
+                <label
+                  htmlFor="email"
+                  className="block text-xs font-bold text-neutral-800"
+                >
                   Email Address <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -344,8 +399,12 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
 
             {/* 2. Career Field / Title */}
             <div className="space-y-1.5 text-left">
-              <label htmlFor="careerField" className="block text-xs font-bold text-neutral-800">
-                Career Field or Professional Title <span className="text-rose-500">*</span>
+              <label
+                htmlFor="careerField"
+                className="block text-xs font-bold text-neutral-800"
+              >
+                Career Field or Professional Title{" "}
+                <span className="text-rose-500">*</span>
               </label>
               <input
                 type="text"
@@ -363,7 +422,8 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
             <div className="space-y-3 text-left">
               <div className="flex items-center justify-between">
                 <label className="block text-xs font-bold text-neutral-800">
-                  Preferred Portfolio Design <span className="text-rose-500">*</span>
+                  Preferred Portfolio Design{" "}
+                  <span className="text-rose-500">*</span>
                 </label>
                 <span className="text-[11px] text-neutral-500">
                   Automatically populated from selection
@@ -373,19 +433,19 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
                   {
-                    id: 'developer' as PortfolioStyle,
-                    name: 'Developer',
-                    desc: 'Dark navy canvas, technical skills matrix & code accents.',
+                    id: "developer" as PortfolioStyle,
+                    name: "Developer",
+                    desc: "Dark navy canvas, technical skills matrix & code accents.",
                   },
                   {
-                    id: 'creative' as PortfolioStyle,
-                    name: 'Creative',
-                    desc: 'Warm cream, expressive editorial serif & rich gallery.',
+                    id: "creative" as PortfolioStyle,
+                    name: "Creative",
+                    desc: "Warm cream, expressive editorial serif & rich gallery.",
                   },
                   {
-                    id: 'professional' as PortfolioStyle,
-                    name: 'Professional',
-                    desc: 'Clean white/slate, emerald impact metrics & career timeline.',
+                    id: "professional" as PortfolioStyle,
+                    name: "Professional",
+                    desc: "Clean white/slate, emerald impact metrics & career timeline.",
                   },
                 ].map((design) => {
                   const isCurrent = formData.preferredDesign === design.id;
@@ -396,8 +456,8 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                       onClick={() => handleDesignSelect(design.id)}
                       className={`p-3.5 rounded-xl border text-left transition-all relative ${
                         isCurrent
-                          ? 'border-indigo-600 bg-indigo-50/50 ring-2 ring-indigo-600/20'
-                          : 'border-neutral-200 bg-white hover:border-neutral-300'
+                          ? "border-indigo-600 bg-indigo-50/50 ring-2 ring-indigo-600/20"
+                          : "border-neutral-200 bg-white hover:border-neutral-300"
                       }`}
                     >
                       {isCurrent && (
@@ -419,10 +479,13 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
 
             {/* 4. Preferred Colors: Presets + Custom Option */}
             <div className="space-y-3 text-left">
-              <label htmlFor="colorOption" className="block text-xs font-bold text-neutral-800">
+              <label
+                htmlFor="colorOption"
+                className="block text-xs font-bold text-neutral-800"
+              >
                 Preferred Colors
               </label>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
                 {COLOR_PRESETS.map((preset) => {
                   const isChecked = formData.colorOption === preset.id;
@@ -431,8 +494,8 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                       key={preset.id}
                       className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
                         isChecked
-                          ? 'border-indigo-600 bg-indigo-50/40 ring-1 ring-indigo-600'
-                          : 'border-neutral-200 bg-white hover:border-neutral-300'
+                          ? "border-indigo-600 bg-indigo-50/40 ring-1 ring-indigo-600"
+                          : "border-neutral-200 bg-white hover:border-neutral-300"
                       }`}
                     >
                       <input
@@ -468,16 +531,16 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                 {/* Custom Color Option */}
                 <label
                   className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
-                    formData.colorOption === 'custom'
-                      ? 'border-indigo-600 bg-indigo-50/40 ring-1 ring-indigo-600'
-                      : 'border-neutral-200 bg-white hover:border-neutral-300'
+                    formData.colorOption === "custom"
+                      ? "border-indigo-600 bg-indigo-50/40 ring-1 ring-indigo-600"
+                      : "border-neutral-200 bg-white hover:border-neutral-300"
                   }`}
                 >
                   <input
                     type="radio"
                     name="colorOption"
                     value="custom"
-                    checked={formData.colorOption === 'custom'}
+                    checked={formData.colorOption === "custom"}
                     onChange={handleInputChange}
                     className="sr-only"
                   />
@@ -494,7 +557,7 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
               </div>
 
               {/* Custom Color Inputs if selected */}
-              {formData.colorOption === 'custom' && (
+              {formData.colorOption === "custom" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-neutral-50 border border-neutral-200 mt-2">
                   <div className="space-y-1">
                     <label className="text-[11px] font-semibold text-neutral-700 block">
@@ -503,17 +566,23 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                     <div className="flex items-center gap-2">
                       <input
                         type="color"
-                        value={formData.customPrimaryColor || '#4f46e5'}
+                        value={formData.customPrimaryColor || "#4f46e5"}
                         onChange={(e) =>
-                          setFormData((prev) => ({ ...prev, customPrimaryColor: e.target.value }))
+                          setFormData((prev) => ({
+                            ...prev,
+                            customPrimaryColor: e.target.value,
+                          }))
                         }
                         className="h-8 w-8 rounded border border-neutral-300 cursor-pointer p-0.5"
                       />
                       <input
                         type="text"
-                        value={formData.customPrimaryColor || '#4f46e5'}
+                        value={formData.customPrimaryColor || "#4f46e5"}
                         onChange={(e) =>
-                          setFormData((prev) => ({ ...prev, customPrimaryColor: e.target.value }))
+                          setFormData((prev) => ({
+                            ...prev,
+                            customPrimaryColor: e.target.value,
+                          }))
                         }
                         placeholder="#4f46e5"
                         className="font-mono text-xs px-2.5 py-1.5 rounded border border-neutral-300 bg-white w-28 uppercase"
@@ -528,17 +597,23 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                     <div className="flex items-center gap-2">
                       <input
                         type="color"
-                        value={formData.customAccentColor || '#818cf8'}
+                        value={formData.customAccentColor || "#818cf8"}
                         onChange={(e) =>
-                          setFormData((prev) => ({ ...prev, customAccentColor: e.target.value }))
+                          setFormData((prev) => ({
+                            ...prev,
+                            customAccentColor: e.target.value,
+                          }))
                         }
                         className="h-8 w-8 rounded border border-neutral-300 cursor-pointer p-0.5"
                       />
                       <input
                         type="text"
-                        value={formData.customAccentColor || '#818cf8'}
+                        value={formData.customAccentColor || "#818cf8"}
                         onChange={(e) =>
-                          setFormData((prev) => ({ ...prev, customAccentColor: e.target.value }))
+                          setFormData((prev) => ({
+                            ...prev,
+                            customAccentColor: e.target.value,
+                          }))
                         }
                         placeholder="#818cf8"
                         className="font-mono text-xs px-2.5 py-1.5 rounded border border-neutral-300 bg-white w-28 uppercase"
@@ -551,8 +626,12 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
 
             {/* 5. Contact Method / Social Profile Link */}
             <div className="space-y-1.5 text-left">
-              <label htmlFor="contactMethod" className="block text-xs font-bold text-neutral-800">
-                Preferred Contact Method or Social Profile Link <span className="text-rose-500">*</span>
+              <label
+                htmlFor="contactMethod"
+                className="block text-xs font-bold text-neutral-800"
+              >
+                Preferred Contact Method or Social Profile Link{" "}
+                <span className="text-rose-500">*</span>
               </label>
               <input
                 type="text"
@@ -565,14 +644,19 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                 className="w-full rounded-xl border border-neutral-300 bg-white px-3.5 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600 transition-all"
               />
               <span className="text-[11px] text-neutral-500 block">
-                Jomo will use this to contact you directly to confirm requirements.
+                Jomo will use this to contact you directly to confirm
+                requirements.
               </span>
             </div>
 
             {/* 6. Optional: Project links / Bio summary */}
             <div className="space-y-1.5 text-left">
-              <label htmlFor="projectNotes" className="block text-xs font-bold text-neutral-800">
-                Projects, Resume link, or Bio Notes <span className="text-neutral-400 font-normal">(Optional)</span>
+              <label
+                htmlFor="projectNotes"
+                className="block text-xs font-bold text-neutral-800"
+              >
+                Projects, Resume link, or Bio Notes{" "}
+                <span className="text-neutral-400 font-normal">(Optional)</span>
               </label>
               <textarea
                 id="projectNotes"
@@ -597,7 +681,8 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                   className="mt-1 h-4 w-4 rounded border-neutral-300 text-indigo-600 focus:ring-indigo-500"
                 />
                 <span className="text-xs text-neutral-700 leading-relaxed">
-                  I'd also like early access to Jomo's free automated CV builder when it launches.
+                  I'd also like early access to Jomo's free automated CV builder
+                  when it launches.
                 </span>
               </label>
 
@@ -612,8 +697,11 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                   className="mt-1 h-4 w-4 rounded border-neutral-300 text-indigo-600 focus:ring-indigo-500"
                 />
                 <span className="text-xs text-neutral-800 leading-relaxed font-medium">
-                  <span className="text-rose-500 mr-1">*</span>
-                  I confirm that I have reviewed the service scope (1-page portfolio, 3 template designs, 5 revision rounds, free Vercel subdomain) and understand that payment (₦1,000) and order confirmation are separate steps handled after Jomo reviews my inquiry.
+                  <span className="text-rose-500 mr-1">*</span>I confirm that I
+                  have reviewed the service scope (1-page portfolio, 3 template
+                  designs, 5 revision rounds, free Vercel subdomain) and
+                  understand that payment (₦1,000) and order confirmation are
+                  separate steps handled after Jomo reviews my inquiry.
                 </span>
               </label>
             </div>
@@ -641,13 +729,13 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
 
               {/* Privacy Reassurance underneath */}
               <p className="text-center text-[11px] text-neutral-500 leading-normal max-w-md mx-auto">
-                🔒 Your information is private and will only be used by Jomo to respond to your inquiry and prepare your personalized portfolio website. No spam or unsolicited marketing.
+                🔒 Your information is private and will only be used by Jomo to
+                respond to your inquiry and prepare your personalized portfolio
+                website. No spam or unsolicited marketing.
               </p>
             </div>
-
           </form>
         )}
-
       </div>
     </section>
   );
