@@ -13,10 +13,6 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onGetStartedClick }) => {
       <SectionDecorations className="-z-0 opacity-40" />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
         
-        <div className="inline-flex items-center gap-2 text-xs font-semibold text-indigo-300 bg-neutral-800 border border-neutral-700 px-3 py-1 rounded-full">
-          <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-          <span>Launch Your Website This Week</span>
-        </div>
 
         <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight text-balance">
           Ready to put your work online?
