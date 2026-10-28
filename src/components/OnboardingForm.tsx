@@ -4,6 +4,7 @@ import { COLOR_PRESETS } from "../data/portfolioStyles";
 import { BrandButton } from "./BrandButton";
 import { SectionDecorations } from "./SectionDecorations";
 import { submitOnboardingDetails } from "../services/submissionService";
+import { trackLeadSubmission } from "../utils/analytics";
 import {
   Check,
   Send,
@@ -210,6 +211,7 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
     try {
       const result = await submitOnboardingDetails(formData);
       if (result.success) {
+        trackLeadSubmission("onboarding");
         setSubmissionSuccess(result.record);
       }
     } catch (err: any) {

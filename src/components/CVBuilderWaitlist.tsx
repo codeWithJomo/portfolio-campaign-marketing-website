@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { joinCVWaitlist } from "../services/submissionService";
+import { trackLeadSubmission } from "../utils/analytics";
 import {
   Sparkles,
   Check,
@@ -30,6 +31,7 @@ export const CVBuilderWaitlist: React.FC = () => {
     setIsSubmitting(true);
     try {
       await joinCVWaitlist(email.trim());
+      trackLeadSubmission("cv_builder_waitlist");
       setJoined(true);
     } catch (err: any) {
       setError(err.message || "Failed to join waitlist. Please try again.");
