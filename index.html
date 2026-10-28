@@ -2,27 +2,30 @@
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <!-- Google Analytics waits for consent before loading or storing analytics data. -->
+    <!-- Google Analytics runs only in production and after consent. -->
     <script>
+      var isProduction = !/^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
       window.dataLayer = window.dataLayer || [];
       function gtag() { window.dataLayer.push(arguments); }
       window.gtag = gtag;
-      gtag('consent', 'default', {
-        analytics_storage: 'denied',
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied'
-      });
-      gtag('js', new Date());
-      window.loadGoogleAnalytics = function () {
-        if (window.googleAnalyticsLoaded) return;
-        window.googleAnalyticsLoaded = true;
-        var script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-7BRE4TEKFR';
-        document.head.appendChild(script);
-        gtag('config', 'G-7BRE4TEKFR');
-      };
+      if (isProduction) {
+        gtag('consent', 'default', {
+          analytics_storage: 'denied',
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied'
+        });
+        gtag('js', new Date());
+        window.loadGoogleAnalytics = function () {
+          if (window.googleAnalyticsLoaded) return;
+          window.googleAnalyticsLoaded = true;
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-7BRE4TEKFR';
+          document.head.appendChild(script);
+          gtag('config', 'G-7BRE4TEKFR');
+        };
+      }
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0f172a" />
