@@ -35,7 +35,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStartClick }) => {
   return (
     <section
       id="how-it-works"
-      className="relative isolate overflow-hidden py-20 bg-neutral-50/70 border-b border-neutral-200/80"
+      className="relative isolate overflow-hidden py-20 bg-yellow-100 border-b border-yellow-200"
     >
       <SectionDecorations className="-z-10" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -57,14 +57,14 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStartClick }) => {
             return (
               <div
                 key={step.num}
-                className="group relative rounded-2xl bg-purple-600 border border-purple-700 p-8 shadow-xs flex flex-col justify-between space-y-6 text-white font-bold hover:bg-green-600 hover:border-green-700 hover:scale-105 hover:z-10 hover:shadow-lg transition-all duration-300"
+                className="group relative rounded-2xl border-2 border-[#1765f5] bg-cyan-600 p-8 shadow-xs flex flex-col justify-between space-y-6 text-white font-bold hover:bg-green-600 hover:border-[#1765f5] hover:scale-105 hover:z-10 hover:shadow-lg transition-all duration-300"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs font-bold text-white bg-white/15 border border-white/25 px-2.5 py-1 rounded">
                       Step {step.num}
                     </span>
-                    <div className="h-10 w-10 rounded-xl bg-white text-purple-700 flex items-center justify-center group-hover:bg-green-100 group-hover:text-green-800">
+                    <div className="h-10 w-10 rounded-xl bg-white text-cyan-700 flex items-center justify-center group-hover:bg-green-100 group-hover:text-green-800">
                       <Icon className="h-5 w-5" />
                     </div>
                   </div>
