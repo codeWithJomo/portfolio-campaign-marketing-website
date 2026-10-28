@@ -1,7 +1,5 @@
 import { OnboardingFormData, SubmissionRecord } from '../types';
-
-const STORAGE_KEY = 'jomo_portfolio_submissions';
-const WAITLIST_STORAGE_KEY = 'jomo_cv_waitlist';
+import { supabase } from './supabase';
 
 export async function submitOnboardingDetails(
   data: OnboardingFormData
@@ -38,47 +36,23 @@ export async function submitOnboardingDetails(
     data,
   };
 
-  // Try network endpoint if configured, otherwise persist to localStorage
-  try {
-    const endpoint = (import.meta as any).env?.VITE_SUBMISSION_ENDPOINT;
-    if (endpoint) {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(record),
-      });
-      if (!response.ok) {
-        console.warn('Custom endpoint returned non-200, falling back to local store');
-      }
-    } else {
-      // Simulate brief network latency for realistic UX feedback
-      await new Promise((resolve) => setTimeout(resolve, 800));
-    }
-  } catch (err) {
-    console.warn('Network submission failed, saving to local store:', err);
-  }
+  const { error } = await supabase.from('portfolio_submissions').insert({
+    reference_id: record.referenceId,
+    submitted_at: record.submittedAt,
+    full_name: data.fullName.trim(),
+    email: data.email.trim().toLowerCase(),
+    career_field: data.careerField.trim(),
+    preferred_design: data.preferredDesign,
+    color_option: data.colorOption,
+    custom_primary_color: data.customPrimaryColor ?? null,
+    custom_accent_color: data.customAccentColor ?? null,
+    contact_method: data.contactMethod.trim(),
+    project_notes: data.projectNotes ?? null,
+    cv_builder_waitlist: data.cvBuilderWaitlist,
+    agreed_to_terms: data.agreedToTerms,
+  });
 
-  // Persist locally for user reference
-  try {
-    const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    existing.unshift(record);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(existing.slice(0, 10)));
-  } catch (e) {
-    console.error('Storage error:', e);
-  }
-
-  // If user opted into CV builder waitlist, add to waitlist storage too
-  if (data.cvBuilderWaitlist) {
-    try {
-      const waitlist = JSON.parse(localStorage.getItem(WAITLIST_STORAGE_KEY) || '[]');
-      if (!waitlist.includes(data.email)) {
-        waitlist.push(data.email);
-        localStorage.setItem(WAITLIST_STORAGE_KEY, JSON.stringify(waitlist));
-      }
-    } catch (e) {
-      console.error('Waitlist storage error:', e);
-    }
-  }
+  if (error) throw new Error(`Could not save your submission: ${error.message}`);
 
   return {
     success: true,
@@ -95,17 +69,12 @@ export async function joinCVWaitlist(
     throw new Error('Please provide a valid email address.');
   }
 
-  await new Promise((resolve) => setTimeout(resolve, 600));
+  const normalizedEmail = email.trim().toLowerCase();
+  const { error } = await supabase
+    .from('cv_builder_waitlist')
+    .upsert({ email: normalizedEmail }, { onConflict: 'email', ignoreDuplicates: true });
 
-  try {
-    const waitlist = JSON.parse(localStorage.getItem(WAITLIST_STORAGE_KEY) || '[]');
-    if (!waitlist.includes(email)) {
-      waitlist.push(email);
-      localStorage.setItem(WAITLIST_STORAGE_KEY, JSON.stringify(waitlist));
-    }
-  } catch (e) {
-    console.error('Waitlist storage error:', e);
-  }
+  if (error) throw new Error(`Could not join the waitlist: ${error.message}`);
 
   return {
     success: true,
