@@ -7,7 +7,7 @@ export const GuaranteeSection: React.FC = () => {
   const [showFullTerms, setShowFullTerms] = useState(false);
 
   return (
-    <section className="relative isolate overflow-hidden py-16 bg-neutral-50/60 border-b border-neutral-200/80">
+    <section className="relative isolate overflow-hidden py-16 bg-yellow-100 border-b border-yellow-200">
       <SectionDecorations className="-z-10" />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         
