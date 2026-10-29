@@ -42,6 +42,16 @@ A landing page for a personalized portfolio website service. Visitors can review
 
 The onboarding form inserts into `portfolio_submissions`; the standalone CV form inserts into `cv_builder_waitlist`.
 
+## Marketing admin
+
+The discreet footer lock opens the campaign and lead workspace. This Vite project has no private server, so production sign-in uses Supabase Auth and row-level security rather than a client-side PIN; browser code cannot keep a PIN secret or protect records.
+
+1. Run `supabase/schema.sql` if needed, then run `supabase/marketing_admin.sql` in the Supabase SQL editor.
+2. Create an admin under Supabase Authentication. Copy its user UUID and run the commented `auth.users` metadata update at the end of `marketing_admin.sql` with that UUID. Only accounts carrying `app_metadata.role = admin` can access CRM records.
+3. Configure `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`. Never expose a service-role key in Vite configuration.
+
+Campaigns, leads, campaign associations, outreach interactions, and status history persist in Supabase. Normalized profile URL, email, and phone identifiers have unique indexes; database collisions remain rejected even if an admin overrides a possible-duplicate warning. Admin analytics derives from CRM records. Existing anonymous website events remain separate in `performance_events` and are readable to admins; the current interface does not yet query them. It does not infer conversations, enquiries, visitors, or sales from clicks. Revenue requires recording payment amounts and visitor attribution requires campaign-tagged landing-page events.
+
 Performance tracking records production visits, return visits, clicks on the main conversion actions, and footer reach in `performance_events`. The insert-only public policy does not allow visitors to read these records. In the Supabase SQL Editor, query `public.performance_event_counts` for daily totals by event and CTA label. The visitor ID is a random browser-local identifier; clearing local storage makes the browser appear new. Events do not include form or contact information. Tracking is disabled in local/dev builds and does not depend on the optional Google Analytics consent setting.
 
 ## Available scripts

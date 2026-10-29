@@ -8,5 +8,5 @@ if (!supabaseUrl || !supabasePublishableKey) {
 }
 
 export const supabase = supabaseUrl && supabasePublishableKey
-  ? createClient(supabaseUrl, supabasePublishableKey)
+  ? createClient(supabaseUrl, supabasePublishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } })
   : null;

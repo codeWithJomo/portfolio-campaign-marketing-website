@@ -15,11 +15,13 @@ import { LiveDemoModal } from './components/LiveDemoModal';
 import { StickyMobileCTA } from './components/StickyMobileCTA';
 import { ConsentBanner } from './components/ConsentBanner';
 import { recordPerformanceEvent, trackVisit } from './utils/performanceTracking';
+import { AdminGate } from './admin/AdminApp';
 
 export default function App() {
   const [selectedStyle, setSelectedStyle] = useState<PortfolioStyle>('developer');
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [demoModalStyle, setDemoModalStyle] = useState<PortfolioStyle>('developer');
+  const [adminOpen, setAdminOpen] = useState(false);
 
   const formRef = useRef<HTMLDivElement | null>(null);
 
@@ -107,6 +109,7 @@ export default function App() {
       <Footer
         onSelectStyleAndScroll={handleSelectStyle}
         onOpenDemo={handleOpenDemo}
+        onOpenAdmin={() => setAdminOpen(true)}
       />
 
       {/* Full Live Demo Modal */}
@@ -124,6 +127,7 @@ export default function App() {
       />
 
       <ConsentBanner />
+      {adminOpen && <AdminGate onClose={() => setAdminOpen(false)} />}
     </div>
   );
 }

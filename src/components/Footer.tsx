@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { PortfolioStyle } from "../types";
-import { FileText, Shield, X, Mail } from "lucide-react";
+import { FileText, Shield, X, Mail, LockKeyhole } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { trackFooterReach } from "../utils/performanceTracking";
 
 interface FooterProps {
   onSelectStyleAndScroll: (style: PortfolioStyle) => void;
   onOpenDemo: (style: PortfolioStyle) => void;
+  onOpenAdmin?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onSelectStyleAndScroll,
   onOpenDemo,
+  onOpenAdmin,
 }) => {
   const footerRef = useRef<HTMLElement | null>(null);
   const [legalModal, setLegalModal] = useState<"terms" | "privacy" | null>(
@@ -112,6 +114,9 @@ export const Footer: React.FC<FooterProps> = ({
             <p>
               100% money-back guarantee under stated terms · Free Vercel hosting
             </p>
+            <button type="button" onClick={onOpenAdmin} aria-label="Open admin sign in" title="Admin" className="rounded p-2 text-neutral-400 hover:text-neutral-700 focus-visible:outline-2 focus-visible:outline-indigo-600">
+              <LockKeyhole className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </footer>
