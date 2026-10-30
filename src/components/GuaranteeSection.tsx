@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { ShieldCheck, ChevronDown, ChevronUp, FileText } from 'lucide-react';
 import { BrandButton } from './BrandButton';
 import { SectionDecorations } from './SectionDecorations';
+import { usePrice } from '../utils/pricing';
 
 export const GuaranteeSection: React.FC = () => {
+  const { amount } = usePrice();
   const [showFullTerms, setShowFullTerms] = useState(false);
 
   return (
@@ -63,7 +65,7 @@ export const GuaranteeSection: React.FC = () => {
                   <strong>2. Opportunity to Rectify:</strong> If any element differs from what you specified, you are entitled to 5 revision rounds during which I will promptly make the necessary corrections.
                 </p>
                 <p>
-                  <strong>3. Refund Eligibility:</strong> If, after utilizing reasonable revision efforts within 14 days of initial delivery, the site still fundamentally fails to meet the agreed-upon design structure or functional link expectations, a 100% refund of ₦5,000 will be issued to your bank account or payment method within 3 business days.
+                  <strong>3. Refund Eligibility:</strong> If, after utilizing reasonable revision efforts within 14 days of initial delivery, the site still fundamentally fails to meet the agreed-upon design structure or functional link expectations, a 100% refund of {amount} will be issued to your bank account or payment method within 3 business days.
                 </p>
                 <p>
                   <strong>4. Exclusions:</strong> Refunds are not applicable for subjective changes of mind where work has already met the initial submission brief, or for requested features that were clearly noted as not included (e.g., custom paid domains or multi-page systems).
@@ -78,3 +80,4 @@ export const GuaranteeSection: React.FC = () => {
     </section>
   );
 };
+

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Check, X, ShieldCheck } from "lucide-react";
 import { BrandButton } from "./BrandButton";
 import { SectionDecorations } from "./SectionDecorations";
+import { usePrice } from "../utils/pricing";
 
 interface WhatsIncludedProps {
   onGetStartedClick: () => void;
@@ -10,6 +11,7 @@ interface WhatsIncludedProps {
 export const WhatsIncluded: React.FC<WhatsIncludedProps> = ({
   onGetStartedClick,
 }) => {
+  const { amount } = usePrice();
   const includedItems = [
     "A personalized, one-page portfolio website built for your career track",
     "Your choice of one of three designs (Developer, Creative, or Professional)",
@@ -180,7 +182,7 @@ export const WhatsIncluded: React.FC<WhatsIncludedProps> = ({
               </span>
               <div className="flex items-baseline justify-center gap-2">
                 <span className="text-4xl sm:text-5xl font-extrabold text-black tracking-tight font-mono">
-                  ₦5,000
+                  {amount}
                 </span>
                 <span className="text-sm font-bold text-neutral-600">
                   one-time payment
@@ -210,7 +212,7 @@ export const WhatsIncluded: React.FC<WhatsIncludedProps> = ({
             showPortfolioIcon
             className="w-full"
           >
-            Get My Portfolio — ₦5,000
+            Get My Portfolio — {amount}
           </BrandButton>
         </div>
       </div>

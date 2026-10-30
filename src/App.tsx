@@ -16,6 +16,7 @@ import { StickyMobileCTA } from './components/StickyMobileCTA';
 import { ConsentBanner } from './components/ConsentBanner';
 import { recordPerformanceEvent, trackVisit } from './utils/performanceTracking';
 import { AdminGate } from './admin/AdminApp';
+import { PricingProvider } from './utils/pricing';
 
 export default function App() {
   const [selectedStyle, setSelectedStyle] = useState<PortfolioStyle>('developer');
@@ -62,6 +63,7 @@ export default function App() {
   };
 
   return (
+    <PricingProvider>
     <div className="min-h-screen flex flex-col bg-neutral-50 text-neutral-900 font-sans selection:bg-indigo-500 selection:text-white antialiased">
       {/* Navigation */}
       <Navbar onGetStartedClick={scrollToForm} />
@@ -129,5 +131,6 @@ export default function App() {
       <ConsentBanner />
       {adminOpen && <AdminGate onClose={() => setAdminOpen(false)} />}
     </div>
+    </PricingProvider>
   );
 }

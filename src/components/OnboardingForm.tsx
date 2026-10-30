@@ -5,6 +5,7 @@ import { BrandButton } from "./BrandButton";
 import { SectionDecorations } from "./SectionDecorations";
 import { submitOnboardingDetails } from "../services/submissionService";
 import { trackLeadSubmission } from "../utils/analytics";
+import { usePrice } from "../utils/pricing";
 import {
   Check,
   Send,
@@ -39,6 +40,7 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
   onSelectStyle,
   formRef,
 }) => {
+  const { amount } = usePrice();
   const [formData, setFormData] = useState<OnboardingFormData>({
     fullName: "",
     email: "",
@@ -377,7 +379,7 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                     Direct Contact & Payment
                   </strong>
                   <p className="text-[11px] leading-relaxed">
-                    You receive a message with payment instructions (₦5,000
+                    You receive a message with payment instructions ({amount}
                     one-time fee).
                   </p>
                 </div>
@@ -850,7 +852,7 @@ export const OnboardingForm: React.FC<OnboardingFormProps> = ({
                       <span className="text-rose-500 mr-1">*</span>I confirm
                       that I have reviewed the service scope (1-page portfolio,
                       3 template designs, 5 revision rounds, free Vercel
-                      subdomain) and understand payment (₦5,000) is a separate
+                      subdomain) and understand payment ({amount}) is a separate
                       step after Jomo reviews my inquiry.
                     </span>
                   </label>

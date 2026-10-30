@@ -2,12 +2,14 @@ import React from 'react';
 import { Sparkles } from 'lucide-react';
 import { BrandButton } from './BrandButton';
 import { SectionDecorations } from './SectionDecorations';
+import { usePrice } from '../utils/pricing';
 
 interface FinalCTAProps {
   onGetStartedClick: () => void;
 }
 
 export const FinalCTA: React.FC<FinalCTAProps> = ({ onGetStartedClick }) => {
+  const { amount, oneTimeAmount } = usePrice();
   return (
     <section className="py-20 bg-neutral-900 text-white relative isolate overflow-hidden">
       <SectionDecorations className="-z-0 opacity-40" />
@@ -29,12 +31,12 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onGetStartedClick }) => {
             showPortfolioIcon
             className="px-8 py-2"
           >
-            Get My Portfolio — ₦5,000
+            Get My Portfolio — {amount}
           </BrandButton>
         </div>
 
         <p className="text-xs text-neutral-400 pt-2">
-          ₦5,000 one-time · Free Vercel hosting forever · Money-back guarantee
+          {oneTimeAmount} · Free Vercel hosting forever · Money-back guarantee
         </p>
 
       </div>

@@ -4,6 +4,7 @@ import { PortfolioStyle } from "../types";
 import { BrandButton } from "./BrandButton";
 import { SectionDecorations } from "./SectionDecorations";
 import fallbackImage from "../public/images/hompage-animation-1-fallback.png";
+import { usePrice } from "../utils/pricing";
 
 interface HeroProps {
   onGetStartedClick: () => void;
@@ -14,7 +15,9 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({
   onGetStartedClick,
   onExploreClick,
-}) => (
+}) => {
+  const { amount } = usePrice();
+  return (
   <section className="relative isolate min-h-[calc(100vh-64px)] overflow-hidden bg-[radial-gradient(ellipse_at_50%_45%,#ffffff_20%,#f5faff_72%,#eaf5ff_100%)] px-4 pb-12 pt-10 sm:px-6 lg:px-8 lg:pt-14">
     <SectionDecorations variant="hero" className="-z-10" />
 
@@ -40,7 +43,7 @@ export const Hero: React.FC<HeroProps> = ({
           </h1>
           <p className="max-w-[760px] text-lg font-medium leading-[1.55] text-[#344668] sm:text-2xl">
             Get your own clean, personalized portfolio website to showcase your
-            skills, projects, and experience — for just ₦5,000.
+            skills, projects, and experience — for just {amount}.
           </p>
           <div className="relative flex flex-col items-center gap-4 pt-1 sm:flex-row sm:items-center">
             <span
@@ -127,4 +130,5 @@ export const Hero: React.FC<HeroProps> = ({
       </div>
     </div>
   </section>
-);
+  );
+};
