@@ -11,6 +11,7 @@ import {
   Menu,
   Settings,
   Users,
+  ShoppingBag,
   X,
 } from "lucide-react";
 
@@ -52,8 +53,24 @@ type Outreach = {
   notes: string | null;
   follow_up_at: string | null;
 };
+type PurchaseRequest = {
+  id: number;
+  reference_id: string;
+  submitted_at: string;
+  full_name: string;
+  email: string;
+  career_field: string;
+  preferred_design: string;
+  color_option: string;
+  custom_primary_color: string | null;
+  custom_accent_color: string | null;
+  contact_method: string;
+  project_notes: string | null;
+  cv_builder_waitlist: boolean;
+};
 type Section =
   | "Overview"
+  | "Purchase Requests"
   | "Campaigns"
   | "Leads"
   | "Outreach Activity"
@@ -61,6 +78,7 @@ type Section =
   | "Settings";
 const sections: { name: Section; icon: typeof LayoutDashboard }[] = [
   { name: "Overview", icon: LayoutDashboard },
+  { name: "Purchase Requests", icon: ShoppingBag },
   { name: "Campaigns", icon: BriefcaseBusiness },
   { name: "Leads", icon: Users },
   { name: "Outreach Activity", icon: Activity },
@@ -107,6 +125,7 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [activities, setActivities] = useState<Outreach[]>([]);
+  const [purchaseRequests, setPurchaseRequests] = useState<PurchaseRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
@@ -144,7 +163,7 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
     }
     setLoading(true);
     setError("");
-    const [c, l, a] = await Promise.all([
+    const [c, l, a, p] = await Promise.all([
       supabase
         .from("marketing_campaigns")
         .select("*")
@@ -157,12 +176,17 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
         .from("marketing_outreach")
         .select("*")
         .order("occurred_at", { ascending: false }),
+      supabase
+        .from("portfolio_submissions")
+        .select("*")
+        .order("submitted_at", { ascending: false }),
     ]);
-    const failure = c.error || l.error || a.error;
+    const failure = c.error || l.error || a.error || p.error;
     if (failure) setError(failure.message);
     setCampaigns((c.data ?? []) as Campaign[]);
     setLeads((l.data ?? []) as Lead[]);
     setActivities((a.data ?? []) as Outreach[]);
+    setPurchaseRequests((p.data ?? []) as PurchaseRequest[]);
     setLoading(false);
   }
   useEffect(() => {
@@ -1723,6 +1747,48 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
                     paid-customer metrics require an explicit payment record
                     integration.
                   </p>
+                </>
+              )}
+              {section === "Purchase Requests" && (
+                <>
+                  <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+                    <div>
+                      <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Purchase requests</h1>
+                      <p className="mt-1 text-sm text-neutral-500">Website submissions requesting a portfolio website.</p>
+                    </div>
+                    <button onClick={() => void refresh()} className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium hover:bg-neutral-50">Refresh</button>
+                  </div>
+                  <div className={cardClass}>
+                    <p className="mb-4 text-sm text-neutral-500">{purchaseRequests.length} request{purchaseRequests.length === 1 ? "" : "s"}</p>
+                    {!purchaseRequests.length ? (
+                      <p className="py-8 text-center text-sm text-neutral-500">No purchase requests yet.</p>
+                    ) : (
+                      <div className="space-y-4">
+                        {purchaseRequests.map((request) => (
+                          <article key={request.id} className="rounded-xl border border-neutral-200 p-4">
+                            <div className="flex flex-wrap items-start justify-between gap-3">
+                              <div>
+                                <h2 className="font-semibold text-neutral-900">{request.full_name}</h2>
+                                <a className="text-sm text-indigo-700 hover:underline" href={`mailto:${request.email}`}>{request.email}</a>
+                              </div>
+                              <div className="text-right text-xs text-neutral-500">
+                                <p>{request.reference_id}</p>
+                                <time dateTime={request.submitted_at}>{new Date(request.submitted_at).toLocaleString()}</time>
+                              </div>
+                            </div>
+                            <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
+                              <div><dt className="text-xs text-neutral-500">Career field</dt><dd>{request.career_field}</dd></div>
+                              <div><dt className="text-xs text-neutral-500">Design</dt><dd className="capitalize">{request.preferred_design}</dd></div>
+                              <div><dt className="text-xs text-neutral-500">Color preference</dt><dd>{request.color_option}{request.custom_primary_color ? ` · ${request.custom_primary_color}` : ""}{request.custom_accent_color ? ` / ${request.custom_accent_color}` : ""}</dd></div>
+                              <div className="sm:col-span-2 lg:col-span-3"><dt className="text-xs text-neutral-500">Preferred contact</dt><dd className="break-words">{request.contact_method}</dd></div>
+                              {request.project_notes && <div className="sm:col-span-2 lg:col-span-3"><dt className="text-xs text-neutral-500">Project notes</dt><dd className="whitespace-pre-wrap">{request.project_notes}</dd></div>}
+                              {request.cv_builder_waitlist && <div className="text-xs text-indigo-700">Also requested CV builder waitlist access</div>}
+                            </dl>
+                          </article>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </>
               )}
               {section === "Settings" && (

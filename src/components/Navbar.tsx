@@ -27,7 +27,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onGetStartedClick }) => {
           href="#"
           className="text-2xl font-extrabold tracking-tight text-neutral-900 whitespace-nowrap shrink-0 transition-opacity hover:opacity-85"
         >
-          jomo<span className="text-blue-600">Code</span><span className="text-yellow-400 text-3xl">.</span>
+          FiveDollar<span className="text-blue-600">Portfolio</span>
+          <span className="text-yellow-400 text-3xl">.</span>
         </a>
 
         {/* Zone 2: Clean single-line text navigation links */}

@@ -52,6 +52,12 @@ create trigger marketing_lead_touch before update on public.marketing_leads for 
 create or replace function public.is_marketing_admin() returns boolean language sql stable security definer set search_path = '' as $$
   select coalesce((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin', false)
 $$;
+-- Admins can read website purchase requests in the CRM. Public visitors retain insert-only access from schema.sql.
+alter table public.portfolio_submissions enable row level security;
+drop policy if exists portfolio_submissions_admin_read on public.portfolio_submissions;
+create policy portfolio_submissions_admin_read on public.portfolio_submissions for select to authenticated using (public.is_marketing_admin());
+grant select on public.portfolio_submissions to authenticated;
+
 alter table public.marketing_campaigns enable row level security;
 alter table public.marketing_leads enable row level security;
 alter table public.marketing_lead_campaigns enable row level security;
