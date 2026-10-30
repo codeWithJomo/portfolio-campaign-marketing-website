@@ -129,6 +129,7 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [activities, setActivities] = useState<Outreach[]>([]);
   const [purchaseRequests, setPurchaseRequests] = useState<PurchaseRequest[]>([]);
+  const [leadCampaignLinks, setLeadCampaignLinks] = useState<{ lead_id: string; campaign_id: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
@@ -166,7 +167,7 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
     }
     setLoading(true);
     setError("");
-    const [c, l, a, p] = await Promise.all([
+    const [c, l, a, p, lc] = await Promise.all([
       supabase
         .from("marketing_campaigns")
         .select("*")
@@ -183,13 +184,15 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
         .from("portfolio_submissions")
         .select("*")
         .order("submitted_at", { ascending: false }),
+      supabase.from("marketing_lead_campaigns").select("lead_id, campaign_id"),
     ]);
-    const failure = c.error || l.error || a.error || p.error;
+    const failure = c.error || l.error || a.error || p.error || lc.error;
     if (failure) setError(failure.message);
     setCampaigns((c.data ?? []) as Campaign[]);
     setLeads((l.data ?? []) as Lead[]);
     setActivities((a.data ?? []) as Outreach[]);
     setPurchaseRequests((p.data ?? []) as PurchaseRequest[]);
+    setLeadCampaignLinks((lc.data ?? []) as { lead_id: string; campaign_id: string }[]);
     setLoading(false);
   }
   useEffect(() => {
@@ -210,8 +213,8 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
           activities.some(
             (a) => a.lead_id === lead.id && a.campaign_id === campaignFilter,
           ) ||
-          (lead as Lead & { campaign_ids?: string[] }).campaign_ids?.includes(
-            campaignFilter,
+          leadCampaignLinks.some(
+            (link) => link.lead_id === lead.id && link.campaign_id === campaignFilter,
           );
         return (
           (!query || text.includes(query.toLowerCase())) &&
@@ -219,7 +222,7 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
           campaignOk
         );
       }),
-    [leads, query, statusFilter, campaignFilter, activities],
+    [leads, query, statusFilter, campaignFilter, activities, leadCampaignLinks],
   );
   const due = leads.filter(
     (l) =>
@@ -273,9 +276,9 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
     ? activities.filter((a) => a.lead_id === selectedLead.id)
     : [];
   const campaignLeads = campaignDetail
-    ? leads.filter((l) =>
-        activities.some(
-          (a) => a.lead_id === l.id && a.campaign_id === campaignDetail,
+    ? leads.filter((lead) =>
+        leadCampaignLinks.some(
+          (link) => link.lead_id === lead.id && link.campaign_id === campaignDetail,
         ),
       )
     : [];
@@ -334,11 +337,24 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
       setError(result.error.message);
       return;
     }
-    if (draft.campaign_id && result.data) {
-      const link = await supabase
+    if (result.data) {
+      const { error: deleteLinksError } = await supabase
         .from("marketing_lead_campaigns")
-        .upsert({ lead_id: result.data.id, campaign_id: draft.campaign_id });
-      if (link.error) setError(link.error.message);
+        .delete()
+        .eq("lead_id", result.data.id);
+      if (deleteLinksError) {
+        setError(deleteLinksError.message);
+        return;
+      }
+      if (draft.campaign_id) {
+        const { error: linkError } = await supabase
+          .from("marketing_lead_campaigns")
+          .insert({ lead_id: result.data.id, campaign_id: draft.campaign_id });
+        if (linkError) {
+          setError(linkError.message);
+          return;
+        }
+      }
     }
     if (
       editingLead &&
@@ -478,7 +494,7 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
       status: lead.status,
       notes: lead.notes ?? "",
       follow_up_at: lead.follow_up_at?.slice(0, 16) ?? "",
-      campaign_id: "",
+      campaign_id: leadCampaignLinks.find((link) => link.lead_id === lead.id)?.campaign_id ?? "",
     });
     setShowLeadForm(true);
   }
