@@ -62,6 +62,12 @@ drop policy if exists portfolio_submissions_admin_update on public.portfolio_sub
 create policy portfolio_submissions_admin_update on public.portfolio_submissions for update to authenticated using (public.is_marketing_admin()) with check (public.is_marketing_admin());
 grant update (is_read) on public.portfolio_submissions to authenticated;
 
+-- Only marketing admins can read first-party website performance events.
+alter table public.performance_events enable row level security;
+drop policy if exists performance_events_admin_read on public.performance_events;
+create policy performance_events_admin_read on public.performance_events for select to authenticated using (public.is_marketing_admin());
+grant select on public.performance_events to authenticated;
+
 alter table public.marketing_campaigns enable row level security;
 alter table public.marketing_leads enable row level security;
 alter table public.marketing_lead_campaigns enable row level security;
@@ -85,32 +91,3 @@ create or replace view public.marketing_performance_event_counts with (security_
   from public.performance_events group by event_name, event_label, date_trunc('day', occurred_at);
 grant select on public.marketing_performance_event_counts to authenticated;
 revoke all on public.marketing_performance_event_counts from anon;
-
--- Assign one administrator by running in SQL editor with their auth user UUID:
--- update auth.users set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"role":"admin"}'::jsonb where id = '<USER_UUID>';
-1{
-2  "id": "66f5dc55-e357-472e-8c5d-b8b8ea363f8f",
-3  "email": "johnjohanan65@gmail.com",
-4  "banned_until": null,
-5  "created_at": "2026-10-29 17:04:43.852646+00",
-6  "confirmed_at": "2026-10-29 17:04:43.873201+00",
-7  "confirmation_sent_at": null,
-8  "is_anonymous": false,
-9  "is_sso_user": false,
-10  "invited_at": null,
-11  "last_sign_in_at": null,
-12  "phone": null,
-13  "raw_app_meta_data": {
-14    "provider": "email",
-15    "providers": [
-16      "email"
-17    ]
-18  },
-19  "raw_user_meta_data": {
-20    "email_verified": true
-21  },
-22  "updated_at": "2026-10-29 17:04:43.874272+00",
-23  "providers": [
-24    "email"
-25  ]
-26}

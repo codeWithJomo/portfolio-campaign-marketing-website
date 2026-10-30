@@ -55,6 +55,13 @@ type Outreach = {
   notes: string | null;
   follow_up_at: string | null;
 };
+type PerformanceEvent = {
+  id: number;
+  visitor_id: string;
+  event_name: "visit" | "return_visit" | "conversion_click" | "footer_reached";
+  event_label: string | null;
+  occurred_at: string;
+};
 type PurchaseRequest = {
   id: number;
   reference_id: string;
@@ -78,6 +85,7 @@ type Section =
   | "Leads"
   | "Outreach Activity"
   | "Analytics"
+  | "First-party performance tracking"
   | "Settings";
 const sections: { name: Section; icon: typeof LayoutDashboard }[] = [
   { name: "Overview", icon: LayoutDashboard },
@@ -86,6 +94,7 @@ const sections: { name: Section; icon: typeof LayoutDashboard }[] = [
   { name: "Leads", icon: Users },
   { name: "Outreach Activity", icon: Activity },
   { name: "Analytics", icon: BarChart3 },
+  { name: "First-party performance tracking", icon: Activity },
   { name: "Settings", icon: Settings },
 ];
 const statuses = [
@@ -128,6 +137,8 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [activities, setActivities] = useState<Outreach[]>([]);
+  const [performanceEvents, setPerformanceEvents] = useState<PerformanceEvent[]>([]);
+  const [performanceLoading, setPerformanceLoading] = useState(false);
   const [purchaseRequests, setPurchaseRequests] = useState<PurchaseRequest[]>([]);
   const [leadCampaignLinks, setLeadCampaignLinks] = useState<{ lead_id: string; campaign_id: string }[]>([]);
   const [loading, setLoading] = useState(true);
@@ -156,6 +167,22 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
     follow_up_at: "",
   });
   const [analyticsPeriod, setAnalyticsPeriod] = useState("30");
+
+  async function refreshPerformanceEvents() {
+    if (!supabase) return;
+    setPerformanceLoading(true);
+    const since = new Date();
+    since.setDate(since.getDate() - Number(analyticsPeriod));
+    const { data, error: eventsError } = await supabase
+      .from("performance_events")
+      .select("id, visitor_id, event_name, event_label, occurred_at")
+      .gte("occurred_at", since.toISOString())
+      .order("occurred_at", { ascending: false })
+      .limit(1000);
+    if (eventsError) setError(eventsError.message);
+    else setPerformanceEvents((data ?? []) as PerformanceEvent[]);
+    setPerformanceLoading(false);
+  }
 
   async function refresh() {
     if (!supabase) {
@@ -198,6 +225,9 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
   useEffect(() => {
     void refresh();
   }, []);
+  useEffect(() => {
+    if (section === "First-party performance tracking") void refreshPerformanceEvents();
+  }, [section, analyticsPeriod]);
   useEffect(() => {
     if (!toast) return;
     const t = window.setTimeout(() => setToast(""), 3200);
@@ -250,6 +280,18 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
   daysAgo.setDate(daysAgo.getDate() - Number(analyticsPeriod));
   const periodActivities = activities.filter(
     (a) => new Date(a.occurred_at) >= daysAgo,
+  );
+  const uniquePerformanceVisitors = new Set(performanceEvents.map((event) => event.visitor_id)).size;
+  const performanceEventCounts = ["visit", "return_visit", "conversion_click", "footer_reached"].map((name) => ({
+    name,
+    count: performanceEvents.filter((event) => event.event_name === name).length,
+  }));
+  const performanceDays = Array.from(
+    performanceEvents.reduce((counts, event) => {
+      const day = new Date(event.occurred_at).toLocaleDateString();
+      counts.set(day, (counts.get(day) ?? 0) + 1);
+      return counts;
+    }, new Map<string, number>()),
   );
   const contactedIds = new Set(
     periodActivities
@@ -1796,6 +1838,72 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
                     paid-customer metrics require an explicit payment record
                     integration.
                   </p>
+                </>
+              )}
+              {section === "First-party performance tracking" && (
+                <>
+                  <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+                    <div>
+                      <h1 className="text-2xl font-bold">First-party performance tracking</h1>
+                      <p className="mt-1 text-sm text-neutral-500">Website events collected by this site and stored in Supabase.</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <select className={`${input} w-auto`} value={analyticsPeriod} onChange={(e) => setAnalyticsPeriod(e.target.value)}>
+                        <option value="7">Last 7 days</option>
+                        <option value="30">Last 30 days</option>
+                        <option value="90">Last 90 days</option>
+                        <option value="365">Last 12 months</option>
+                      </select>
+                      <button onClick={() => void refreshPerformanceEvents()} className="rounded-xl border border-neutral-200 px-4 py-2.5 text-sm font-medium hover:bg-neutral-50">Refresh</button>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
+                    {[["Events loaded", performanceEvents.length], ["Unique visitors", uniquePerformanceVisitors], ...performanceEventCounts.map(({ name, count }) => [name.replaceAll("_", " "), count])].map(([label, value]) => (
+                      <div key={String(label)} className={cardClass}>
+                        <p className="text-xs capitalize text-neutral-500">{label}</p>
+                        <p className="mt-3 text-2xl font-bold">{value}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-5 grid gap-5 xl:grid-cols-2">
+                    <section className={cardClass}>
+                      <h2 className="font-bold">Events by day</h2>
+                      <div className="mt-3 divide-y divide-neutral-100">
+                        {performanceDays.map(([day, count]) => (
+                          <div key={day} className="flex justify-between py-2.5 text-sm"><span>{day}</span><span className="text-neutral-500">{count} events</span></div>
+                        ))}
+                        {!performanceLoading && !performanceDays.length && <p className="py-6 text-sm text-neutral-500">No events in this date range.</p>}
+                      </div>
+                    </section>
+                    <section className={cardClass}>
+                      <h2 className="font-bold">Recent events</h2>
+                      <div className="mt-3 max-h-[32rem] overflow-auto">
+                        <table className="w-full min-w-[620px] text-left text-sm">
+                          <thead className="sticky top-0 bg-neutral-50 text-xs uppercase tracking-wide text-neutral-500">
+                            <tr>
+                              <th className="px-3 py-3 font-semibold">Event</th>
+                              <th className="px-3 py-3 font-semibold">Label</th>
+                              <th className="px-3 py-3 font-semibold">Visitor</th>
+                              <th className="px-3 py-3 font-semibold">Occurred at</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {performanceEvents.slice(0, 100).map((event) => (
+                              <tr key={event.id} className="border-b border-neutral-100 align-top hover:bg-neutral-50">
+                                <td className="px-3 py-3 font-medium capitalize">{event.event_name.replaceAll("_", " ")}</td>
+                                <td className="px-3 py-3 text-neutral-600">{event.event_label || "—"}</td>
+                                <td className="px-3 py-3 font-mono text-xs text-neutral-500">{event.visitor_id.slice(0, 8)}</td>
+                                <td className="whitespace-nowrap px-3 py-3 text-xs text-neutral-600"><time dateTime={event.occurred_at}>{new Date(event.occurred_at).toLocaleString()}</time></td>
+                              </tr>
+                            ))}
+                            {performanceLoading && <tr><td colSpan={4} className="px-3 py-8 text-center text-neutral-500">Loading events…</td></tr>}
+                            {!performanceLoading && !performanceEvents.length && <tr><td colSpan={4} className="px-3 py-8 text-center text-neutral-500">No events in this date range.</td></tr>}
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                  <p className="mt-4 text-xs leading-5 text-neutral-500">Showing up to 1,000 events for the selected period. Visitor counts are based on the loaded events. Local development and localhost visits are excluded from collection.</p>
                 </>
               )}
               {section === "Purchase Requests" && (
