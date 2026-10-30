@@ -314,6 +314,10 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
   ).length;
   const selectedCampaign = campaigns.find((c) => c.id === campaignDetail);
   const selectedLead = leads.find((l) => l.id === leadDetail);
+  const selectedLeadCampaignId = selectedLead
+    ? leadCampaignLinks.find((link) => link.lead_id === selectedLead.id)?.campaign_id
+    : undefined;
+  const selectedLeadCampaign = campaigns.find((campaign) => campaign.id === selectedLeadCampaignId);
   const leadActivities = selectedLead
     ? activities.filter((a) => a.lead_id === selectedLead.id)
     : [];
@@ -740,9 +744,14 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
           required
           className={`${input} mt-1`}
           value={activityDraft.lead_id}
-          onChange={(e) =>
-            setActivityDraft({ ...activityDraft, lead_id: e.target.value })
-          }
+          onChange={(e) => {
+            const leadId = e.target.value;
+            setActivityDraft({
+              ...activityDraft,
+              lead_id: leadId,
+              campaign_id: leadCampaignLinks.find((link) => link.lead_id === leadId)?.campaign_id ?? "",
+            });
+          }}
         >
           <option value="">Choose a lead</option>
           {leads.map((l) => (
@@ -1366,7 +1375,7 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
                           Edit lead
                         </button>
                       </div>
-                      <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                      <div className="mt-5 grid gap-3 sm:grid-cols-4">
                         <label className="text-xs text-neutral-500">
                           Status
                           <select
@@ -1386,6 +1395,13 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
                           <br />
                           <span className="mt-1 block text-sm text-neutral-800">
                             {selectedLead.source_channel || "Unknown"}
+                          </span>
+                        </p>
+                        <p className="rounded-xl bg-neutral-50 p-3 text-xs text-neutral-500">
+                          Campaign
+                          <br />
+                          <span className="mt-1 block text-sm text-neutral-800">
+                            {selectedLeadCampaign?.name || "No campaign linked"}
                           </span>
                         </p>
                         <p className="rounded-xl bg-neutral-50 p-3 text-xs text-neutral-500">
@@ -1410,6 +1426,7 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
                             setActivityDraft({
                               ...activityDraft,
                               lead_id: selectedLead.id,
+                              campaign_id: selectedLeadCampaignId ?? "",
                             });
                             setShowActivityForm(true);
                           }}
@@ -1673,7 +1690,10 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
                     {activities.map((a) => (
                       <button
                         key={a.id}
-                        onClick={() => setLeadDetail(a.lead_id)}
+                        onClick={() => {
+                          setSection("Leads");
+                          setLeadDetail(a.lead_id);
+                        }}
                         className="flex w-full items-start justify-between gap-3 py-4 text-left"
                       >
                         <div>

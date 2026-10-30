@@ -18,6 +18,12 @@ export function ConsentBanner() {
     }
   }, []);
 
+  useEffect(() => {
+    const openPreferences = () => setShowPreferences(true);
+    window.addEventListener("open-cookie-preferences", openPreferences);
+    return () => window.removeEventListener("open-cookie-preferences", openPreferences);
+  }, []);
+
   const chooseConsent = (choice: Exclude<AnalyticsConsent, null>) => {
     setAnalyticsConsent(choice);
     setConsent(choice);
@@ -25,16 +31,7 @@ export function ConsentBanner() {
   };
 
   if (consent !== null && !showPreferences) {
-    return (
-      <button
-        type="button"
-        onClick={() => setShowPreferences(true)}
-        className="fixed bottom-4 left-4 z-[60] rounded-full border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-800 shadow-lg transition hover:border-indigo-400 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        aria-label="Open analytics cookie preferences"
-      >
-        Cookie settings
-      </button>
-    );
+    return null;
   }
 
   return (

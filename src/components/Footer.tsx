@@ -116,6 +116,14 @@ export const Footer: React.FC<FooterProps> = ({
             <p>
               100% money-back guarantee under stated terms · Free Vercel hosting
             </p>
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("open-cookie-preferences"))}
+              className="text-neutral-500 underline underline-offset-2 hover:text-neutral-900 focus-visible:outline-2 focus-visible:outline-indigo-600"
+              aria-label="Open cookie preferences"
+            >
+              Cookie settings
+            </button>
             <button type="button" onClick={onOpenAdmin} aria-label="Open admin sign in" title="Admin" className="rounded p-2 text-neutral-400 hover:text-neutral-700 focus-visible:outline-2 focus-visible:outline-indigo-600">
               <LockKeyhole className="h-4 w-4" />
             </button>
