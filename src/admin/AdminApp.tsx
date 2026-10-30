@@ -12,6 +12,8 @@ import {
   Settings,
   Users,
   ShoppingBag,
+  Bell,
+  Check,
   X,
 } from "lucide-react";
 
@@ -67,6 +69,7 @@ type PurchaseRequest = {
   contact_method: string;
   project_notes: string | null;
   cv_builder_waitlist: boolean;
+  is_read: boolean;
 };
 type Section =
   | "Overview"
@@ -224,6 +227,22 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
       new Date(l.follow_up_at) <= new Date() &&
       !["Converted", "Lost"].includes(l.status),
   );
+  const unreadPurchaseRequests = purchaseRequests.filter((request) => !request.is_read).length;
+  async function markPurchaseRequestRead(request: PurchaseRequest) {
+    if (!supabase || request.is_read) return;
+    const { error: updateError } = await supabase
+      .from("portfolio_submissions")
+      .update({ is_read: true })
+      .eq("id", request.id);
+    if (updateError) {
+      setError(updateError.message);
+      return;
+    }
+    setPurchaseRequests((requests) =>
+      requests.map((item) => item.id === request.id ? { ...item, is_read: true } : item),
+    );
+    setToast("Purchase request marked as read.");
+  }
   const daysAgo = new Date();
   daysAgo.setDate(daysAgo.getDate() - Number(analyticsPeriod));
   const periodActivities = activities.filter(
@@ -483,6 +502,9 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
             <span className="ml-auto rounded-full bg-rose-100 px-2 py-0.5 text-xs text-rose-700">
               {due.length}
             </span>
+          )}
+          {name === "Purchase Requests" && unreadPurchaseRequests > 0 && (
+            <span className="ml-auto rounded-full bg-indigo-100 px-2 py-0.5 text-xs text-indigo-700">{unreadPurchaseRequests}</span>
           )}
         </button>
       ))}
@@ -866,6 +888,17 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
             </div>
           </div>
           <div className="flex gap-2">
+            {unreadPurchaseRequests > 0 && (
+              <button
+                onClick={() => setSection("Purchase Requests")}
+                aria-label={`${unreadPurchaseRequests} unread purchase requests`}
+                title={`${unreadPurchaseRequests} unread purchase requests`}
+                className="relative rounded-xl border border-neutral-200 p-2 text-neutral-600 hover:bg-neutral-50"
+              >
+                <Bell size={17} />
+                <span className="absolute -right-1 -top-1 min-w-4 rounded-full bg-rose-600 px-1 text-[10px] leading-4 text-white">{unreadPurchaseRequests}</span>
+              </button>
+            )}
             <button
               onClick={newLead}
               className="hidden items-center gap-2 rounded-xl bg-neutral-900 px-3 py-2 text-xs font-semibold text-white sm:flex"
@@ -1763,29 +1796,26 @@ export function AdminApp({ onExit }: { onExit: () => void }) {
                     {!purchaseRequests.length ? (
                       <p className="py-8 text-center text-sm text-neutral-500">No purchase requests yet.</p>
                     ) : (
-                      <div className="space-y-4">
-                        {purchaseRequests.map((request) => (
-                          <article key={request.id} className="rounded-xl border border-neutral-200 p-4">
-                            <div className="flex flex-wrap items-start justify-between gap-3">
-                              <div>
-                                <h2 className="font-semibold text-neutral-900">{request.full_name}</h2>
-                                <a className="text-sm text-indigo-700 hover:underline" href={`mailto:${request.email}`}>{request.email}</a>
-                              </div>
-                              <div className="text-right text-xs text-neutral-500">
-                                <p>{request.reference_id}</p>
-                                <time dateTime={request.submitted_at}>{new Date(request.submitted_at).toLocaleString()}</time>
-                              </div>
-                            </div>
-                            <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
-                              <div><dt className="text-xs text-neutral-500">Career field</dt><dd>{request.career_field}</dd></div>
-                              <div><dt className="text-xs text-neutral-500">Design</dt><dd className="capitalize">{request.preferred_design}</dd></div>
-                              <div><dt className="text-xs text-neutral-500">Color preference</dt><dd>{request.color_option}{request.custom_primary_color ? ` · ${request.custom_primary_color}` : ""}{request.custom_accent_color ? ` / ${request.custom_accent_color}` : ""}</dd></div>
-                              <div className="sm:col-span-2 lg:col-span-3"><dt className="text-xs text-neutral-500">Preferred contact</dt><dd className="break-words">{request.contact_method}</dd></div>
-                              {request.project_notes && <div className="sm:col-span-2 lg:col-span-3"><dt className="text-xs text-neutral-500">Project notes</dt><dd className="whitespace-pre-wrap">{request.project_notes}</dd></div>}
-                              {request.cv_builder_waitlist && <div className="text-xs text-indigo-700">Also requested CV builder waitlist access</div>}
-                            </dl>
-                          </article>
-                        ))}
+                      <div className="overflow-x-auto">
+                        <table className="w-full min-w-[1100px] border-collapse text-left text-sm">
+                          <thead><tr className="border-b border-neutral-200 text-xs text-neutral-500">
+                            <th className="px-3 py-3 font-medium">Status</th><th className="px-3 py-3 font-medium">Submitted</th><th className="px-3 py-3 font-medium">Reference</th><th className="px-3 py-3 font-medium">Name / email</th><th className="px-3 py-3 font-medium">Career field</th><th className="px-3 py-3 font-medium">Design</th><th className="px-3 py-3 font-medium">Colors</th><th className="px-3 py-3 font-medium">Contact</th><th className="px-3 py-3 font-medium">Notes / CV waitlist</th><th className="px-3 py-3 font-medium">Action</th>
+                          </tr></thead>
+                          <tbody>{purchaseRequests.map((request) => (
+                            <tr key={request.id} className={`border-b border-neutral-100 align-top ${request.is_read ? "" : "bg-indigo-50/50"}`}>
+                              <td className="px-3 py-3"><span className={`rounded-full px-2 py-1 text-xs ${request.is_read ? "bg-neutral-100 text-neutral-600" : "bg-indigo-100 font-semibold text-indigo-700"}`}>{request.is_read ? "Read" : "Unread"}</span></td>
+                              <td className="whitespace-nowrap px-3 py-3 text-xs text-neutral-600"><time dateTime={request.submitted_at}>{new Date(request.submitted_at).toLocaleString()}</time></td>
+                              <td className="px-3 py-3 text-xs text-neutral-600">{request.reference_id}</td>
+                              <td className="px-3 py-3"><div className="font-medium">{request.full_name}</div><a className="text-xs text-indigo-700 hover:underline" href={`mailto:${request.email}`}>{request.email}</a></td>
+                              <td className="px-3 py-3">{request.career_field}</td>
+                              <td className="px-3 py-3 capitalize">{request.preferred_design}</td>
+                              <td className="px-3 py-3 text-xs">{request.color_option}{request.custom_primary_color ? ` · ${request.custom_primary_color}` : ""}{request.custom_accent_color ? ` / ${request.custom_accent_color}` : ""}</td>
+                              <td className="px-3 py-3">{request.contact_method}</td>
+                              <td className="max-w-xs whitespace-pre-wrap px-3 py-3 text-xs">{request.project_notes || "—"}{request.cv_builder_waitlist && <div className="mt-1 text-indigo-700">CV builder waitlist</div>}</td>
+                              <td className="px-3 py-3">{!request.is_read && <button onClick={() => void markPurchaseRequestRead(request)} className="inline-flex items-center gap-1 whitespace-nowrap rounded-lg border border-indigo-200 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-50"><Check size={14} />Mark read</button>}</td>
+                            </tr>
+                          ))}</tbody>
+                        </table>
                       </div>
                     )}
                   </div>

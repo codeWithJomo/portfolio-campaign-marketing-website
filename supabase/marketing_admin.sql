@@ -57,6 +57,10 @@ alter table public.portfolio_submissions enable row level security;
 drop policy if exists portfolio_submissions_admin_read on public.portfolio_submissions;
 create policy portfolio_submissions_admin_read on public.portfolio_submissions for select to authenticated using (public.is_marketing_admin());
 grant select on public.portfolio_submissions to authenticated;
+alter table public.portfolio_submissions add column if not exists is_read boolean not null default false;
+drop policy if exists portfolio_submissions_admin_update on public.portfolio_submissions;
+create policy portfolio_submissions_admin_update on public.portfolio_submissions for update to authenticated using (public.is_marketing_admin()) with check (public.is_marketing_admin());
+grant update (is_read) on public.portfolio_submissions to authenticated;
 
 alter table public.marketing_campaigns enable row level security;
 alter table public.marketing_leads enable row level security;
