@@ -3,10 +3,10 @@ import { ExternalLink } from 'lucide-react';
 import { SectionDecorations } from './SectionDecorations';
 
 const samples = [
-  { name: 'Hair by Remix', url: 'https://hairbyremix.vercel.app/' },
-  { name: 'Jomo Code', url: 'https://jomocode.vercel.app/' },
-  { name: 'Splendid Communications', url: 'https://splendidcomm.vercel.app/' },
-  { name: 'Stanlee', url: 'https://stanlee.vercel.app/' },
+  { name: 'Hair by Remix', description: 'A polished portfolio and brand website for a hair and beauty business.', url: 'https://hairbyremix.vercel.app/' },
+  { name: 'Jomo Code', description: 'A developer portfolio showcasing projects, technical skills, and contact details.', url: 'https://jomocode.vercel.app/' },
+  { name: 'Splendid Communications', description: 'A professional communications portfolio highlighting services and work.', url: 'https://splendidcomm.vercel.app/' },
+  { name: 'Stanlee', description: 'A personal portfolio presenting creative work and professional experience.', url: 'https://stanlee.vercel.app/' },
 ];
 
 export const PortfolioExamples: React.FC = () => (
@@ -14,7 +14,7 @@ export const PortfolioExamples: React.FC = () => (
     <SectionDecorations className="-z-10" />
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="mx-auto mb-14 max-w-2xl space-y-3 text-center">
-        <h2 className="text-balance text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl">Samples</h2>
+<h2 className="text-balance text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl">Portfolio Website Examples</h2>
         <p className="text-lg leading-relaxed text-neutral-600">Explore websites we've created. Select a preview to visit the live website.</p>
       </div>
 
@@ -43,8 +43,9 @@ export const PortfolioExamples: React.FC = () => (
                 </span>
               </div>
             </div>
-            <div className="flex items-center justify-between gap-3 p-5">
+            <div className="p-5">
               <h3 className="text-lg font-bold tracking-tight text-neutral-900">{sample.name}</h3>
+              <p className="mt-1 text-sm leading-relaxed text-neutral-600">{sample.description}</p>
               <ExternalLink className="h-4 w-4 shrink-0 text-neutral-400 transition-colors group-hover:text-indigo-600" />
             </div>
           </a>

@@ -54,11 +54,9 @@ export const FAQSection: React.FC = () => {
                   </div>
                 </button>
 
-                {isOpen && (
-                  <div className="pt-3 pb-1 text-sm text-neutral-600 leading-relaxed animate-in fade-in duration-200">
+                <div hidden={!isOpen} className="pt-3 pb-1 text-sm text-neutral-600 leading-relaxed animate-in fade-in duration-200">
                     <p>{item.answer}</p>
-                  </div>
-                )}
+                </div>
               </div>
             );
           })}
